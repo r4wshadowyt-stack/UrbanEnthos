@@ -859,3 +859,119 @@ button:hover,
     color: #777;
     font-weight: bold;
 }
+/* ===========================
+   Smooth Scrolling
+=========================== */
+
+html{
+    scroll-behavior: smooth;
+}
+
+/* ===========================
+   Button Hover Animation
+=========================== */
+
+button,
+.btn,
+.hero-btn{
+    transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover,
+.hero-btn:hover{
+    transform: translateY(-3px);
+}
+
+/* ===========================
+   Navigation Hover
+=========================== */
+
+nav a{
+    transition: 0.3s;
+}
+
+nav a:hover{
+    color: #ff6b6b;
+}
+
+/* ===========================
+   Image Hover
+=========================== */
+
+img{
+    transition: transform 0.4s ease;
+}
+
+.featured-card img:hover,
+.product-card img:hover{
+    transform: scale(1.05);
+}
+
+/* ===========================
+   Card Animation
+=========================== */
+
+.featured-card,
+.why-card,
+.testimonial-card,
+.product-card{
+    transition: all 0.3s ease;
+}
+
+.featured-card:hover,
+.why-card:hover,
+.testimonial-card:hover,
+.product-card:hover{
+    transform: translateY(-8px);
+}
+/* ===========================
+   Responsive Design
+=========================== */
+
+@media (max-width: 768px){
+
+    nav{
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .hero-content h1{
+        font-size: 2rem;
+    }
+
+    .featured-container,
+    .why-container,
+    .testimonial-container,
+    .product-grid,
+    .contact-info{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .featured-card,
+    .why-card,
+    .testimonial-card,
+    .product-card{
+        width: 90%;
+    }
+
+    .contact-left,
+    .contact-right{
+        width: 100%;
+    }
+
+    .contact-right img{
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .input-group{
+        flex-direction: column;
+    }
+
+    .input-group input{
+        width: 100%;
+    }
+
+}
