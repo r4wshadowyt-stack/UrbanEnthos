@@ -33,11 +33,12 @@ body{
     color:var(--text-color);
     line-height:1.7;
 }
-
 section{
-    padding:80px 10%;
+    padding:90px 10%;
 }
-
+section:nth-child(even){
+    background: var(--white);
+}
 img{
     max-width:100%;
     display:block;
@@ -57,7 +58,22 @@ p{
     max-width:1200px;
     margin:auto;
 }
+/* ===========================
+   Section Titles
+=========================== */
 
+.section-title{
+    text-align:center;
+    font-size:2.3rem;
+    margin-bottom:15px;
+    color:var(--primary-color);
+}
+
+.section-subtitle{
+    text-align:center;
+    color:var(--light-text);
+    margin-bottom:60px;
+}
 /* ==========================
    UrbanEthos Premium Theme
 ========================== */
@@ -116,37 +132,65 @@ header{
 
 /* ===== NAVIGATION ===== */
 
+/* ===========================
+   Navigation
+=========================== */
+
+header{
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: var(--white);
+
+    box-shadow: var(--shadow-small);
+}
+
 nav{
     display:flex;
-    gap:30px;
+    justify-content:space-between;
+    align-items:center;
 }
 
 nav a{
+
+    color:var(--text-color);
+
     text-decoration:none;
-    color:#333;
+
     font-weight:600;
-    transition:.3s;
+
+    transition:var(--transition);
+
     position:relative;
 }
 
-nav a:hover,
-nav a.active{
-    color:#5B3A70;
+nav a:hover{
+
+    color:var(--primary-color);
 }
 
 nav a::after{
+
     content:"";
+
     position:absolute;
+
     left:0;
-    bottom:-6px;
+
+    bottom:-5px;
+
     width:0;
+
     height:2px;
-    background:#D4A373;
-    transition:.3s;
+
+    background:var(--primary-color);
+
+    transition:var(--transition);
 }
 
-nav a:hover::after,
-nav a.active::after{
+nav a:hover::after{
+
     width:100%;
 }
 
@@ -188,43 +232,21 @@ nav a.active::after{
 /* ===== BUTTON ===== */
 
 button,
-.btn,
-.hero-btn{
-
-    background:var(--primary-color);
-    color:white;
-
-    padding:12px 28px;
-
-    border:none;
-    border-radius:var(--border-radius);
-
-    cursor:pointer;
-
-    transition:var(--transition);
-    font-weight:bold;
+.shop-btn{
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 28px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+    transition: var(--transition);
 }
 
-button:hover,
-.btn:hover,
-.hero-btn:hover{
-
-    transform:translateY(-4px);
-
-    box-shadow:var(--shadow-small);
-
-    background:#09563d;
-}
-
-button:hover,
 .shop-btn:hover{
-
-    background:#6F4A8E;
-
-    transform:translateY(-4px);
-
-    box-shadow:0 10px 25px rgba(0,0,0,.25);
-
+    background: #09563d; /* Darker version of your primary green */
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
 }
 
 /* ===== CATEGORIES ===== */
@@ -240,7 +262,6 @@ button:hover,
     margin-bottom:50px;
     color:#5B3A70;
 }
-
 
 
 /* ===== CATEGORY SECTION ===== */
