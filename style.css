@@ -753,11 +753,7 @@ button:hover{
 ===================== */
 
 .about-hero{
-    background:
-    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.6)),
-    url("image/about-banner.jpg");
-    background-size:cover;
-    background-position:center;
+    background: linear-gradient(135deg,#5B3A70,#7C5295);
     text-align:center;
     color:#fff;
     padding:120px 20px;
@@ -786,11 +782,11 @@ button:hover{
 
 .about-section{
     text-align:center;
-    background:#fff;
+    background:#F8F5F2;
 }
 
 .about-section.light{
-    background:#fafafa;
+    background:#f3ecf8;
 }
 
 .about-section h2{
