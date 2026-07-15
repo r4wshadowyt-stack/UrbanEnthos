@@ -34,7 +34,10 @@ addCartButtons.forEach(button => {
 
 });
 
+// ===============================
 // Display Cart
+// ===============================
+
 const cartItems = document.getElementById("cart-items");
 const totalPrice = document.getElementById("total-price");
 
@@ -57,17 +60,107 @@ if (cartItems && totalPrice) {
             total += item.price * item.quantity;
 
             cartItems.innerHTML += `
-                <div class="cart-item">
-                    <img src="${item.image}" width="80">
+            <div class="cart-item">
+
+                <img src="${item.image}" alt="${item.name}">
+
+                <div class="cart-info">
+
                     <h3>${item.name}</h3>
+
                     <p>₹${item.price}</p>
-                    <p>Quantity: ${item.quantity}</p>
+
+                    <div class="quantity-controls">
+
+                        <button class="decrease" data-id="${item.id}">−</button>
+
+                        <span>${item.quantity}</span>
+
+                        <button class="increase" data-id="${item.id}">+</button>
+
+                    </div>
+
+                    <button class="remove-item" data-id="${item.id}">
+                        Remove
+                    </button>
+
                 </div>
-                <hr>
+
+            </div>
+
+            <hr>
             `;
+
         });
 
         totalPrice.textContent = total;
 
     }
+
+}
+
+// ===============================
+// Increase / Decrease / Remove
+// ===============================
+
+document.addEventListener("click", function (e) {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    if (e.target.classList.contains("increase")) {
+
+        const id = e.target.dataset.id;
+
+        cart.forEach(item => {
+            if (item.id === id) {
+                item.quantity++;
+            }
+        });
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload();
+    }
+
+    if (e.target.classList.contains("decrease")) {
+
+        const id = e.target.dataset.id;
+
+        cart.forEach(item => {
+            if (item.id === id && item.quantity > 1) {
+                item.quantity--;
+            }
+        });
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload();
+    }
+
+    if (e.target.classList.contains("remove-item")) {
+
+        const id = e.target.dataset.id;
+
+        cart = cart.filter(item => item.id !== id);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        location.reload();
+    }
+
+});
+// ===============================
+// Cart Count
+// ===============================
+
+const cartCount = document.getElementById("cart-count");
+
+if (cartCount) {
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    let count = 0;
+
+    cart.forEach(item => {
+        count += item.quantity;
+    });
+
+    cartCount.textContent = count;
 }
