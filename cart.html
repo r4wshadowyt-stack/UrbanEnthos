@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UE | Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="image/logo1.jpg" alt="UE Logo">
+            <span>UE</span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html" class="active">Cart 🛒</a>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+
+        <h2>Your Shopping Cart</h2>
+
+        <div id="cart-items">
+            <p>Your cart is empty.</p>
+        </div>
+
+        <div class="cart-total">
+            <h3>Total: ₹<span id="total-price">0</span></h3>
+
+            <button class="buy-btn">
+                Proceed to Checkout
+            </button>
+        </div>
+
+    </section>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

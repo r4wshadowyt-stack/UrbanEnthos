@@ -1253,3 +1253,44 @@ textarea{
 /* =====================
    END OF FILE
 ===================== */
+
+/* =====================
+   Cart
+===================== */
+
+const addCartButtons = document.querySelectorAll(".add-cart");
+
+addCartButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const product = {
+
+            id: button.dataset.id,
+            name: button.dataset.name,
+            price: Number(button.dataset.price),
+            image: button.dataset.image,
+            quantity: 1
+
+        };
+
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        const existingProduct = cart.find(item => item.id === product.id);
+
+        if (existingProduct) {
+
+            existingProduct.quantity++;
+
+        } else {
+
+            cart.push(product);
+
+        }
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+
+        alert(product.name + " added to cart!");
+    });
+
+});
