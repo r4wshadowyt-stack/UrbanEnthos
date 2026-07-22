@@ -1,0 +1,1455 @@
+/*==================================================
+        GOOGLE FONT
+==================================================*/
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
+body{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#020814;
+    position:relative;
+}
+
+/*==================================================
+        NIGHT SKY
+==================================================*/
+
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    background:
+    radial-gradient(circle at top,
+    #10275f 0%,
+    #071126 35%,
+    #020814 65%,
+    #000 100%);
+    z-index:-100;
+}
+
+/*==================================================
+        STARS
+==================================================*/
+
+#stars{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+.star{
+    position:absolute;
+    border-radius:50%;
+    background:white;
+
+    box-shadow:
+    0 0 4px white,
+    0 0 10px white,
+    0 0 18px rgba(255,255,255,.7);
+
+    animation:
+    twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle{
+
+    0%,100%{
+        opacity:.2;
+        transform:scale(.7);
+    }
+
+    50%{
+        opacity:1;
+        transform:scale(1.6);
+    }
+
+}
+
+/*==================================================
+        SHOOTING STARS
+==================================================*/
+
+.shooting-star{
+
+    position:absolute;
+
+    width:220px;
+    height:2px;
+
+    background:
+    linear-gradient(to right,
+    rgba(255,255,255,1),
+    rgba(255,255,255,0));
+
+    transform:rotate(-35deg);
+
+    filter:drop-shadow(0 0 8px white);
+
+    opacity:0;
+
+    animation:
+    shoot 8s linear infinite;
+}
+
+.star1{
+    top:12%;
+    left:-20%;
+    animation-delay:1s;
+}
+
+.star2{
+    top:38%;
+    left:-25%;
+    animation-delay:4.5s;
+}
+
+.star3{
+    top:62%;
+    left:-30%;
+    animation-delay:8s;
+}
+
+@keyframes shoot{
+
+    0%{
+        opacity:0;
+        transform:
+        translate(0,0)
+        rotate(-35deg);
+    }
+
+    5%{
+        opacity:1;
+    }
+
+    30%{
+
+        opacity:1;
+
+        transform:
+        translate(1400px,700px)
+        rotate(-35deg);
+
+    }
+
+    31%{
+        opacity:0;
+    }
+
+    100%{
+        opacity:0;
+    }
+
+}
+
+/*==================================================
+        HANGING LAMP
+==================================================*/
+
+.lamp{
+
+    position:absolute;
+
+    top:0;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    z-index:20;
+
+    transform-origin:top center;
+
+    animation:
+    lampSwing 5s ease-in-out infinite;
+}
+
+@keyframes lampSwing{
+
+    0%,100%{
+        transform:
+        translateX(-50%)
+        rotate(0deg);
+    }
+
+    25%{
+        transform:
+        translateX(-50%)
+        rotate(1.4deg);
+    }
+
+    50%{
+        transform:
+        translateX(-50%)
+        rotate(0deg);
+    }
+
+    75%{
+        transform:
+        translateX(-50%)
+        rotate(-1.4deg);
+    }
+
+}
+
+/* Wire */
+
+.wire{
+
+    width:4px;
+    height:170px;
+
+    background:
+    linear-gradient(
+    to right,
+    #888,
+    #bbb,
+    #777);
+
+}
+
+/* Shade */
+
+.shade{
+
+    width:120px;
+    height:75px;
+
+    background:
+    linear-gradient(
+    to bottom,
+    #767676,
+    #2b2b2b);
+
+    border-radius:
+    60px
+    60px
+    25px
+    25px;
+
+    position:relative;
+
+    box-shadow:
+    inset 0 -20px 25px rgba(0,0,0,.5),
+    0 10px 25px rgba(0,0,0,.45);
+}
+
+/* Holder */
+
+.shade::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:24px;
+    height:12px;
+
+    top:-12px;
+    left:48px;
+
+    background:#8a8a8a;
+
+    border-radius:5px;
+}
+
+/* Bulb */
+
+.bulb{
+
+    position:absolute;
+
+    left:50%;
+
+    bottom:-10px;
+
+    transform:translateX(-50%);
+
+    width:18px;
+    height:18px;
+
+    background:#777;
+
+    border-radius:50%;
+
+    transition:.5s;
+}
+
+/* Bulb ON */
+
+.bulb.on{
+
+    background:#fff7b5;
+
+    animation:
+    bulbGlow 3s ease-in-out infinite;
+}
+
+@keyframes bulbGlow{
+
+    0%,100%{
+
+        box-shadow:
+        0 0 18px white,
+        0 0 45px gold,
+        0 0 100px gold;
+
+    }
+
+    50%{
+
+        box-shadow:
+        0 0 35px white,
+        0 0 85px gold,
+        0 0 180px gold;
+
+    }
+
+}
+
+/* Pull String */
+
+.string{
+
+    width:2px;
+
+    height:110px;
+
+    background:white;
+
+    cursor:pointer;
+
+    position:relative;
+}
+
+.string::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-10px;
+
+    left:-7px;
+
+    width:16px;
+    height:16px;
+
+    background:white;
+
+    border-radius:50%;
+}
+/*==================================================
+        CINEMATIC LIGHT BEAM
+==================================================*/
+
+.light{
+
+    position:absolute;
+
+    top:175px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:760px;
+
+    height:820px;
+
+    clip-path:polygon(
+        47% 0%,
+        53% 0%,
+        100% 100%,
+        0% 100%
+    );
+
+    background:
+    linear-gradient(
+        to bottom,
+        rgba(255,255,230,.60),
+        rgba(255,245,190,.25),
+        rgba(255,240,180,.08),
+        transparent
+    );
+
+    filter:blur(32px);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:1;
+
+    transition:1s;
+}
+
+.light.on{
+
+    opacity:1;
+
+    animation:
+    beamMove 6s ease-in-out infinite,
+    lightFlicker 9s infinite;
+}
+
+@keyframes beamMove{
+
+    0%,100%{
+
+        transform:
+        translateX(-50%)
+        scaleX(1);
+
+    }
+
+    50%{
+
+        transform:
+        translateX(-50%)
+        scaleX(1.04);
+
+    }
+
+}
+
+@keyframes lightFlicker{
+
+    0%,96%,100%{
+
+        opacity:1;
+
+    }
+
+    97%{
+
+        opacity:.93;
+
+    }
+
+    98%{
+
+        opacity:1;
+
+    }
+
+    99%{
+
+        opacity:.96;
+
+    }
+
+}
+
+/* Glow around bulb */
+
+.light::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-45px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:220px;
+
+    height:130px;
+
+    background:
+    radial-gradient(circle,
+    rgba(255,255,220,.9),
+    transparent 70%);
+
+    filter:blur(40px);
+
+}
+
+/*==================================================
+        FLOATING DUST PARTICLES
+==================================================*/
+
+.dust{
+
+    position:absolute;
+
+    width:3px;
+
+    height:3px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.8);
+
+    box-shadow:
+    0 0 10px rgba(255,255,255,.8);
+
+    animation:
+    dustFloat linear infinite;
+
+    opacity:.6;
+}
+
+@keyframes dustFloat{
+
+    from{
+
+        transform:
+        translateY(0)
+        translateX(0)
+        scale(.8);
+
+        opacity:0;
+
+    }
+
+    20%{
+
+        opacity:.6;
+
+    }
+
+    80%{
+
+        opacity:.7;
+
+    }
+
+    to{
+
+        transform:
+        translateY(-250px)
+        translateX(20px)
+        scale(1.4);
+
+        opacity:0;
+
+    }
+
+}
+
+/*==================================================
+        LOGIN CARD
+==================================================*/
+
+.login-box{
+
+    position:relative;
+
+    width:400px;
+
+    max-width:90%;
+
+    padding:40px 40px;
+
+    border-radius:28px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(22px);
+
+    -webkit-backdrop-filter:blur(22px);
+
+    border:1px solid rgba(255,255,255,.16);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55);
+
+    opacity:0;
+
+    transform:
+        translateY(80px)
+        scale(.88);
+
+    transition:1s ease;
+
+    overflow:hidden;
+
+    z-index:5;
+
+}
+
+.login-box.show{
+
+    opacity:1;
+
+    transform:
+
+        translateY(0)
+        scale(1);
+
+    box-shadow:
+
+        0 0 40px rgba(255,220,120,.12),
+
+        0 25px 70px rgba(0,0,0,.55);
+
+}
+
+/* Premium Glass Border */
+
+.login-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:28px;
+
+    padding:1px;
+
+    background:
+
+    linear-gradient(
+
+        135deg,
+
+        rgba(255,255,255,.45),
+
+        transparent,
+
+        rgba(255,255,255,.15)
+
+    );
+
+   -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+
+-webkit-mask-composite: xor;
+
+mask-composite: exclude;
+    pointer-events:none;
+}
+
+/* Glass Reflection */
+
+.login-box::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120%;
+
+    left:-40%;
+
+    width:80%;
+
+    height:300%;
+
+    background:
+
+    linear-gradient(
+
+        120deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent
+
+    );
+
+    transform:rotate(20deg);
+
+    animation:
+    glassShine 10s linear infinite;
+
+}
+
+@keyframes glassShine{
+
+    from{
+
+        top:-140%;
+
+    }
+
+    to{
+
+        top:120%;
+
+    }
+
+}
+/*==================================================
+        LOGIN TITLE
+==================================================*/
+
+.login-box h2{
+
+    color:#fff;
+
+    text-align:center;
+
+    font-size:34px;
+
+    font-weight:600;
+
+    letter-spacing:1px;
+
+    margin-bottom:10px;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,.2);
+
+    animation:titleFade 1.2s ease;
+}
+
+.subtitle{
+
+    color:#d9d9d9;
+
+    text-align:center;
+
+    margin-bottom:35px;
+
+    line-height:1.6;
+
+}
+@keyframes titleFade{
+
+    from{
+
+        opacity:0;
+
+        transform:
+        translateY(-20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+        translateY(0);
+
+    }
+
+}
+
+/*==================================================
+        INPUTS
+==================================================*/
+
+.input-group{
+
+    position:relative;
+
+    margin-bottom:32px;
+}
+
+.input-group input{
+
+    width:100%;
+
+    padding:15px 10px;
+
+    background:transparent;
+
+    border:none;
+
+    border-bottom:2px solid rgba(255,255,255,.35);
+
+    color:white;
+
+    font-size:16px;
+
+    outline:none;
+
+    transition:.35s;
+}
+
+.input-group input::placeholder{
+
+    color:transparent;
+}
+
+.input-group input:focus{
+
+    border-bottom-color:#ffd700;
+
+    box-shadow:
+        0 10px 20px rgba(255,215,0,.08);
+}
+
+.input-group label{
+
+    position:absolute;
+
+    left:10px;
+
+    top:15px;
+
+    color:#d6d6d6;
+
+    pointer-events:none;
+
+    transition:.35s;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label{
+
+    top:-12px;
+
+    font-size:12px;
+
+    color:#ffd700;
+
+    letter-spacing:1px;
+}
+
+/* Animated underline */
+
+.input-group::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:0;
+
+    width:0;
+
+    height:2px;
+
+    background:#ffd700;
+
+    transition:.4s;
+}
+
+.input-group:focus-within::after{
+
+    width:100%;
+}
+
+/*==================================================
+        LOGIN BUTTON
+==================================================*/
+
+.login-btn{
+
+    position:relative;
+
+    overflow:hidden;
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:40px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:
+    linear-gradient(
+        135deg,
+        #00c6ff,
+        #0072ff);
+
+    transition:.35s;
+
+}
+
+.login-btn:hover{
+
+    transform:
+    translateY(-4px);
+
+    box-shadow:
+
+        0 12px 35px rgba(0,140,255,.45);
+
+}
+
+/* Moving shine */
+
+.login-btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+
+    left:-120%;
+
+    width:60%;
+
+    height:100%;
+
+    background:
+
+    linear-gradient(
+
+        120deg,
+
+        transparent,
+
+        rgba(255,255,255,.55),
+
+        transparent
+
+    );
+
+    transform:skewX(-25deg);
+
+}
+
+.login-btn:hover::before{
+
+    animation:shine .8s linear;
+}
+
+@keyframes shine{
+
+    from{
+
+        left:-120%;
+
+    }
+
+    to{
+
+        left:140%;
+
+    }
+
+}
+
+.login-btn:active{
+
+    transform:scale(.98);
+}
+
+
+/*==============================
+        BOTTOM LINK
+==============================*/
+
+.bottom{
+
+    margin-top:25px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:15px;
+
+}
+
+.bottom a{
+
+    color:#ffffff;
+
+    text-decoration:none;
+
+    font-weight:500;
+
+    position:relative;
+
+    transition:.35s;
+
+}
+
+.bottom a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-3px;
+
+    width:0;
+
+    height:2px;
+
+    background:#ffd700;
+
+    transition:.35s;
+
+}
+
+.bottom a:hover{
+
+    color:#ffd700;
+
+}
+
+.bottom a:hover::after{
+
+    width:100%;
+
+}
+/*==================================================
+        BULB FILAMENT
+==================================================*/
+
+.filament{
+
+    position:absolute;
+
+    left:50%;
+
+    top:50%;
+
+    width:4px;
+
+    height:8px;
+
+    transform:translate(-50%,-50%);
+
+    border-radius:10px;
+
+    background:#ffef8d;
+
+    box-shadow:
+
+        0 0 8px gold,
+
+        0 0 15px gold;
+
+    animation:filamentGlow 2s ease-in-out infinite;
+}
+
+@keyframes filamentGlow{
+
+    0%,100%{
+
+        opacity:.7;
+
+        transform:
+        translate(-50%,-50%)
+        scale(1);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        transform:
+        translate(-50%,-50%)
+        scale(1.2);
+
+    }
+
+}
+/*==================================================
+        PAGE LOAD ANIMATION
+==================================================*/
+
+body{
+
+    animation:pageFade 1.2s ease;
+}
+
+@keyframes pageFade{
+
+    from{
+
+        opacity:0;
+
+        transform:scale(1.02);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:scale(1);
+
+    }
+
+}
+
+/*==================================================
+        AURORA EFFECT
+==================================================*/
+
+.background::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:900px;
+
+    height:900px;
+
+    top:-500px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:
+
+    radial-gradient(circle,
+
+    rgba(0,255,220,.08),
+
+    rgba(0,180,255,.04),
+
+    transparent 70%);
+
+    filter:blur(80px);
+
+    animation:aurora 10s ease-in-out infinite;
+
+}
+
+@keyframes aurora{
+
+    0%,100%{
+
+        transform:
+        translateX(-50%)
+        scale(1);
+
+    }
+
+    50%{
+
+        transform:
+        translateX(-50%)
+        scale(1.15);
+
+    }
+
+}
+
+/*==================================================
+        BOTTOM FOG
+==================================================*/
+
+.background::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-180px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:140%;
+
+    height:320px;
+
+    background:
+
+    radial-gradient(circle,
+
+    rgba(255,255,255,.06),
+
+    transparent 70%);
+
+    filter:blur(70px);
+
+    animation:fogMove 15s ease-in-out infinite;
+
+}
+
+@keyframes fogMove{
+
+    0%,100%{
+
+        transform:
+        translateX(-50%);
+
+    }
+
+    50%{
+
+        transform:
+        translateX(-48%);
+
+    }
+
+}
+
+/*==================================================
+        LOGIN CARD FLOAT
+==================================================*/
+
+.login-box.show{
+
+    animation:
+
+    floatCard 6s ease-in-out infinite;
+
+}
+
+@keyframes floatCard{
+
+    0%,100%{
+
+        transform:
+
+        translateY(0)
+
+        scale(1);
+
+    }
+
+    50%{
+
+        transform:
+
+        translateY(-8px)
+
+        scale(1.01);
+
+    }
+
+}
+
+/*==================================================
+        BUTTON PULSE
+==================================================*/
+
+.login-btn{
+
+    animation:
+
+    buttonPulse 3s ease-in-out infinite;
+
+}
+
+@keyframes buttonPulse{
+
+    0%,100%{
+
+        box-shadow:
+
+        0 0 0 rgba(0,114,255,0);
+
+    }
+
+    50%{
+
+        box-shadow:
+
+        0 0 30px rgba(0,114,255,.35);
+
+    }
+
+}
+
+/*==================================================
+        RESPONSIVE
+==================================================*/
+
+@media(max-width:768px){
+
+    .login-box{
+
+        width:90%;
+
+        padding:35px;
+
+    }
+
+    .light{
+
+        width:560px;
+
+        height:620px;
+
+    }
+
+    .lamp{
+
+        transform:
+
+        translateX(-50%)
+
+        scale(.9);
+
+    }
+
+}
+
+@media(max-width:500px){
+
+    .login-box{
+
+        width:92%;
+
+        padding:28px;
+
+    }
+
+    .login-box h2{
+
+        font-size:28px;
+
+    }
+
+    .subtitle{
+
+        font-size:13px;
+
+    }
+
+    .wire{
+
+        height:130px;
+
+    }
+
+    .shade{
+
+        width:90px;
+
+        height:60px;
+
+    }
+
+    .string{
+
+        height:90px;
+
+    }
+
+    .light{
+
+        width:440px;
+
+        height:520px;
+
+    }
+
+    .bottom{
+
+        flex-direction:column;
+
+        gap:8px;
+
+    }
+
+}
+
+/*==================================================
+        SMOOTH TRANSITIONS
+==================================================*/
+
+.login-box,
+.login-btn,
+.input-group input,
+.bottom a,
+.bulb,
+.light{
+
+    transition:
+
+    all .35s ease;
+
+}
+
+.lamp.swing{
+
+    animation:
+
+    pullSwing 1.2s ease;
+}
+
+@keyframes pullSwing{
+
+    0%{
+
+        transform:
+        translateX(-50%)
+        rotate(0deg);
+
+    }
+
+    20%{
+
+        transform:
+        translateX(-50%)
+        rotate(8deg);
+
+    }
+
+    40%{
+
+        transform:
+        translateX(-50%)
+        rotate(-6deg);
+
+    }
+
+    60%{
+
+        transform:
+        translateX(-50%)
+        rotate(4deg);
+
+    }
+
+    80%{
+
+        transform:
+        translateX(-50%)
+        rotate(-2deg);
+
+    }
+
+    100%{
+
+        transform:
+        translateX(-50%)
+        rotate(0deg);
+
+    }
+
+}
