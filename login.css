@@ -166,7 +166,7 @@ body{
 
     position:absolute;
 
-    top:0;
+    top:0px;
 
     left:50%;
 
@@ -180,8 +180,8 @@ body{
 
     transform-origin:top center;
 
-    animation:
-    lampSwing 5s ease-in-out infinite;
+    transition:1s ease;
+
 }
 
 @keyframes lampSwing{
@@ -576,15 +576,11 @@ body{
     1px solid rgba(255,255,255,.16);
 
     box-shadow:
-
         0 30px 80px rgba(0,0,0,.55);
 
     opacity:0;
 
-    transform:
-
-        translateY(80px)
-        scale(.88);
+    transform:scale(.95);
 
     transition:1s ease;
 
@@ -592,22 +588,17 @@ body{
 
     z-index:5;
 }
-
 .login-box.show{
 
     opacity:1;
 
-    transform:
-
-        translateY(0)
-        scale(1);
+    transform:scale(1);
 
     box-shadow:
 
-        0 0 40px rgba(255,220,120,.12),
+        0 0 40px rgba(255,220,120,.15),
 
-        0 25px 70px rgba(0,0,0,.55);
-
+        0 30px 80px rgba(0,0,0,.55);
 }
 
 /* Premium Glass Border */

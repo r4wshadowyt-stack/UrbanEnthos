@@ -83,41 +83,34 @@ function pullAnimation() {
 // ======================================
 // LAMP SWING WHEN PULLED
 // ======================================
-
-function swingLamp() {
+function swingLamp(){
 
     lamp.animate(
 
         [
 
             {
-                transform: "translateX(-50%) rotate(0deg)"
+                transform:"translateX(-50%) translateY(0px) rotate(0deg)"
             },
 
             {
-                transform: "translateX(-50%) rotate(7deg)"
+                transform:"translateX(-50%) translateY(-70px) rotate(5deg)"
             },
 
             {
-                transform: "translateX(-50%) rotate(-5deg)"
+                transform:"translateX(-50%) translateY(-90px) rotate(-3deg)"
             },
 
             {
-                transform: "translateX(-50%) rotate(3deg)"
-            },
-
-            {
-                transform: "translateX(-50%) rotate(0deg)"
+                transform:"translateX(-50%) translateY(-100px) rotate(0deg)"
             }
 
         ],
 
         {
-
-            duration: 1200,
-
-            easing: "ease-out"
-
+            duration:1200,
+            easing:"ease-out",
+            fill:"forwards"
         }
 
     );

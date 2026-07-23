@@ -76,24 +76,28 @@ function swingLamp(){
 
         [
 
-            {transform:"translateX(-50%) rotate(0deg)"},
+            {
+                transform:"translateX(-50%) translateY(0px) rotate(0deg)"
+            },
 
-            {transform:"translateX(-50%) rotate(7deg)"},
+            {
+                transform:"translateX(-50%) translateY(-70px) rotate(5deg)"
+            },
 
-            {transform:"translateX(-50%) rotate(-5deg)"},
+            {
+                transform:"translateX(-50%) translateY(-90px) rotate(-3deg)"
+            },
 
-            {transform:"translateX(-50%) rotate(3deg)"},
-
-            {transform:"translateX(-50%) rotate(0deg)"}
+            {
+                transform:"translateX(-50%) translateY(-100px) rotate(0deg)"
+            }
 
         ],
 
         {
-
             duration:1200,
-
-            easing:"ease-out"
-
+            easing:"ease-out",
+            fill:"forwards"
         }
 
     );
@@ -208,12 +212,46 @@ form.addEventListener("submit",async(e)=>{
 
     };
 
-    console.log(user);
+   try {
 
-    alert("Account created successfully! (Backend coming next)");
+    const response = await fetch("http://localhost:5000/api/users/register", {
 
-    window.location.href="login.html";
+        method: "POST",
 
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify(user)
+
+    });
+
+
+    const data = await response.json();
+
+
+    if(response.ok){
+
+        alert("Account created successfully!");
+
+        window.location.href="login.html";
+
+    }
+    else{
+
+        alert(data.message || "Registration failed");
+
+    }
+
+
+}
+catch(error){
+
+    console.log(error);
+
+    alert("Server error");
+
+}
 });
 
 // ======================================
