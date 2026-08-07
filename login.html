@@ -2,119 +2,258 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Animated Lamp Login</title>
+    <title>Login | UrbanEthos</title>
 
-    <link rel="stylesheet" href="login.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
+    <!-- Authentication CSS -->
+    <link rel="stylesheet" href="auth.css">
 </head>
 
-<body>
+<body class="auth-page">
 
-   <div class="background">
+    <!-- Background Decorations -->
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
 
-    <div id="stars"></div>
+    <!-- Main Authentication Area -->
+    <main class="auth-container">
 
-    <div class="shooting-star star1"></div>
-    <div class="shooting-star star2"></div>
-    <div class="shooting-star star3"></div>
+        <!-- Left Side -->
+        <section class="auth-showcase">
 
-</div>
+            <div class="showcase-content">
 
-    <!-- Lamp -->
+                <div class="auth-logo">
+                    <img src="image/logo1.jpg" alt="UrbanEthos Logo">
+                </div>
 
-    <div class="lamp">
+                <span class="showcase-tag">
+                    ✨ Welcome Back
+                </span>
 
-        <div class="wire"></div>
+                <h1>
+                    Crafted With Care,<br>
+                    Designed For You.
+                </h1>
 
-        <div class="shade">
+                <p>
+                    Sign in to your UrbanEthos account and
+                    continue discovering personalized gifts
+                    and handcrafted creations.
+                </p>
 
-           <div class="bulb">
-
-            <span class="filament"></span>
+                <div class="showcase-decoration">
+                    <span>🎁</span>
+                    <span>✨</span>
+                    <span>💝</span>
+                </div>
 
             </div>
 
-        </div>
+        </section>
 
-        <div class="string" id="string"></div>
 
-    </div>
+        <!-- Login Card -->
+        <section class="auth-box">
 
-    <!-- Light Cone -->
+            <div class="auth-header">
 
-    <!-- Light Cone -->
+                <span class="small-title">
+                    URBANETHOS
+                </span>
 
-<div class="light" id="light">
+                <h2>
+                    Welcome Back
+                </h2>
 
-    <span class="dust" style="left:45%; bottom:80px; animation-duration:8s;"></span>
+                <p>
+                    Login to your account
+                </p>
 
-    <span class="dust" style="left:48%; bottom:140px; animation-duration:7s;"></span>
+            </div>
 
-    <span class="dust" style="left:52%; bottom:220px; animation-duration:10s;"></span>
 
-    <span class="dust" style="left:55%; bottom:300px; animation-duration:9s;"></span>
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
 
-    <span class="dust" style="left:50%; bottom:380px; animation-duration:11s;"></span>
+                <!-- Email -->
+                <div class="form-group">
 
-    <span class="dust" style="left:43%; bottom:450px; animation-duration:8.5s;"></span>
+                    <label for="email">
+                        Email Address
+                    </label>
 
-    <span class="dust" style="left:58%; bottom:520px; animation-duration:9.5s;"></span>
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+                <div class="form-group">
+
+                    <div class="password-label">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <a href="forgot-password.html">
+                            Forgot Password?
+                        </a>
+
+                    </div>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Remember -->
+                <div class="remember-row">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="rememberMe">
+
+                        <span>
+                            Remember me
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- Login Button -->
+                <button
+                    type="submit"
+                    class="auth-button">
+
+                    <span>
+                        Sign In
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- Message -->
+                <div
+                    id="authMessage"
+                    class="auth-message">
+                </div>
+
+            </form>
+
+
+            <!-- Divider -->
+            <div class="divider">
+
+                <span></span>
+
+                <p>
+                    or continue with
+                </p>
+
+                <span></span>
+
+            </div>
+
+
+            <!-- Social Login -->
+            <div class="social-login">
+
+    <button
+        type="button"
+        class="social-btn"
+        id="googleLogin">
+
+        <span class="google-icon">
+            G
+        </span>
+
+        Continue with Google
+
+    </button>
 
 </div>
 
-    <!-- Login Card -->
 
-    <div class="login-box" id="loginBox">
+           <div class="register-link">
 
-        <h2>Welcome Back</h2>
+    <p>
+        Don't have an account?
+    </p>
 
-        <p class="subtitle">
-            Sign in to continue
-        </p>
+    <a href="register.html" id="createAccountLink">
+        Create Account
+    </a>
 
-        <div class="input-group">
+</div>
 
-            <input type="text" required>
 
-            <label>Username</label>
+            <!-- Back Home -->
+            <a
+                href="index.html"
+                class="back-home">
 
-        </div>
+                ← Back to UrbanEthos
 
-        <div class="input-group">
+            </a>
 
-            <input type="password" required>
+        </section>
 
-            <label>Password</label>
+    </main>
 
-        </div>
 
-        <button class="login-btn">
-
-            Login
-
-        </button>
-
-        <div class="bottom">
-
-            <a href="forgot.html">Forgot Password?</a>
-
-            <span>|</span>
-
-            <a href="register.html">Create Account</a>
-
-        </div>
-
-    </div>
-
-    <script src="login.js"></script>
+    <!-- Frontend Authentication JS -->
+    <script src="auth.js"></script>
 
 </body>
 

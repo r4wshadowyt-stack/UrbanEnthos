@@ -73,83 +73,61 @@ router.post("/register", async (req, res) => {
 // LOGIN USER
 router.post("/login", async (req, res) => {
 
+    console.log("🔥 Login request received");
+    console.log(req.body);
+
     try {
 
         const { email, password } = req.body;
 
-
-        // Find user
         const user = await User.findOne({ email });
-
+        console.log("User found:", user);
 
         if (!user) {
-
+            console.log("❌ User not found");
             return res.status(400).json({
                 message: "Invalid email or password"
             });
-
         }
 
-
-        // Compare password
-        const isMatch = await bcrypt.compare(
-            password,
-            user.password
-        );
-
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log("Password match:", isMatch);
 
         if (!isMatch) {
-
+            console.log("❌ Wrong password");
             return res.status(400).json({
                 message: "Invalid email or password"
             });
-
         }
 
+        console.log("✅ Login Success");
 
-        // Create token
         const token = jwt.sign(
-
             {
                 id: user._id,
                 role: user.role
             },
-
             process.env.JWT_SECRET,
-
-            {
-                expiresIn: "7d"
-            }
-
+            { expiresIn: "7d" }
         );
 
-
         res.json({
-
             message: "Login successful",
-
             token,
-
             user: {
-
                 id: user._id,
                 name: user.name,
                 email: user.email,
                 role: user.role
-
             }
-
         });
 
-
     } catch (error) {
-
+        console.error("🔥 LOGIN ERROR:", error);
         res.status(500).json({
             message: error.message
         });
-
     }
-
 });
 router.get("/test2", (req, res) => {
     res.send("TEST 2 WORKING");

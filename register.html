@@ -2,156 +2,328 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>UrbanEthos | Create Account</title>
+    <title>Create Account | UrbanEthos</title>
 
-    <link rel="stylesheet" href="register.css">
-
+    <link rel="stylesheet" href="auth.css">
 </head>
 
-<body>
+<body class="auth-page register-page slide-in">
 
-    <!-- Background -->
+    <!-- Background Decorations -->
+    <div class="bg-shape shape-one"></div>
+    <div class="bg-shape shape-two"></div>
+    <div class="bg-shape shape-three"></div>
 
-    <div class="background">
 
-        <div id="stars"></div>
+    <main class="auth-container register-container">
 
-    </div>
 
-    <!-- Lamp -->
+        <!-- REGISTER FORM -->
+        <section class="auth-box">
 
-    <div class="lamp">
+            <div class="auth-header">
 
-        <div class="wire"></div>
+                <span class="small-title">
+                    URBANETHOS
+                </span>
 
-        <div class="shade">
+                <h2>
+                    Create Account
+                </h2>
 
-            <div class="bulb">
-
-                <span class="filament"></span>
-
-            </div>
-
-        </div>
-
-        <div class="string" id="string"></div>
-
-    </div>
-
-    <!-- Light Cone -->
-
-    <div class="light" id="light">
-
-        <span class="dust" style="left:45%;bottom:80px;"></span>
-        <span class="dust" style="left:52%;bottom:180px;"></span>
-        <span class="dust" style="left:48%;bottom:320px;"></span>
-        <span class="dust" style="left:56%;bottom:420px;"></span>
-
-    </div>
-
-    <!-- Register Card -->
-
-    <div class="login-box" id="loginBox">
-
-        <h2>Create Account</h2>
-
-        <p class="subtitle">
-
-            Join the UrbanEthos family
-
-        </p>
-
-        <form id="registerForm">
-
-            <div class="input-group">
-
-                <input
-                    type="text"
-                    id="name"
-                    required>
-
-                <label>Full Name</label>
+                <p>
+                    Join UrbanEthos and start creating memories.
+                </p>
 
             </div>
 
-            <div class="input-group">
 
-                <input
-                    type="email"
-                    id="email"
-                    required>
+            <form id="registerForm" class="auth-form">
 
-                <label>Email Address</label>
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            👤
+                        </span>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            autocomplete="name"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="registerEmail">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="form-group">
+
+                    <label for="registerPassword">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            name="password"
+                            placeholder="Create a password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="toggleRegisterPassword"
+                            aria-label="Show password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="toggleConfirmPassword"
+                            aria-label="Show password">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TERMS -->
+                <div class="remember-row">
+
+                    <label class="remember">
+
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            required>
+
+                        <span>
+                            I agree to the Terms & Conditions
+                        </span>
+
+                    </label>
+
+                </div>
+
+
+                <!-- CREATE BUTTON -->
+                <button
+                    type="submit"
+                    class="auth-button">
+
+                    <span>
+                        Create Account
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- MESSAGE -->
+                <div
+                    id="registerMessage"
+                    class="auth-message">
+                </div>
+
+            </form>
+
+
+            <!-- DIVIDER -->
+            <div class="divider">
+
+                <span></span>
+
+                <p>
+                    or sign up with
+                </p>
+
+                <span></span>
 
             </div>
 
-            <div class="input-group">
 
-                <input
-                    type="tel"
-                    id="phone"
-                    required>
+            <!-- GOOGLE -->
+            <div class="social-login">
 
-                <label>Phone Number</label>
+                <button
+                    type="button"
+                    class="social-btn"
+                    id="googleRegister">
 
-            </div>
+                    <span class="google-icon">
+                        G
+                    </span>
 
-            <div class="input-group">
+                    Continue with Google
 
-                <input
-                    type="password"
-                    id="password"
-                    required>
-
-                <label>Password</label>
+                </button>
 
             </div>
 
-            <div class="input-group">
 
-                <input
-                    type="password"
-                    id="confirmPassword"
-                    required>
+            <!-- LOGIN -->
+            <div class="register-link">
 
-                <label>Confirm Password</label>
+                <p>
+                    Already have an account?
+                </p>
+
+                <a
+                    href="login.html"
+                    id="loginLink">
+
+                    Login
+
+                </a>
 
             </div>
 
-            <button
-                type="submit"
-                class="login-btn">
 
-                Create Account
+            <!-- HOME -->
+            <a
+                href="index.html"
+                class="back-home">
 
-            </button>
-
-        </form>
-
-        <div class="bottom">
-
-            <span>
-
-                Already have an account?
-
-            </span>
-
-            <a href="login.html">
-
-                Login
+                ← Back to UrbanEthos
 
             </a>
 
-        </div>
+        </section>
 
-    </div>
 
-    <script src="register.js"></script>
+        <!-- RIGHT SHOWCASE -->
+        <section class="auth-showcase">
+
+            <div class="showcase-content">
+
+                <div class="auth-logo">
+
+                    <img
+                        src="image/logo1.jpg"
+                        alt="UrbanEthos Logo">
+
+                </div>
+
+
+                <span class="showcase-tag">
+                    ✨ Become Part of UrbanEthos
+                </span>
+
+
+                <h1>
+                    Your Ideas,<br>
+                    Your Memories,<br>
+                    Your Creation.
+                </h1>
+
+
+                <p>
+                    Create your account and discover
+                    handcrafted gifts, personalized products
+                    and beautiful creations made just for you.
+                </p>
+
+
+                <div class="showcase-decoration">
+
+                    <span>🎁</span>
+                    <span>✨</span>
+                    <span>💝</span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="auth.js"></script>
 
 </body>
 
