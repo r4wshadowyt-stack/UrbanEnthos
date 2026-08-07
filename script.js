@@ -164,3 +164,36 @@ if (cartCount) {
 
     cartCount.textContent = count;
 }
+document.addEventListener("DOMContentLoaded",()=>{
+
+
+const userArea = document.getElementById("user-area");
+
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+
+if(user && userArea){
+
+
+    userArea.innerHTML = `
+
+        <a href="profile.html" class="profile-link">
+
+            <img 
+            src="${user.profilePic || 'images/default-user.png'}"
+            class="profile-img"
+            >
+
+            <span>${user.name}</span>
+
+        </a>
+
+    `;
+
+
+}
+
+
+
+});

@@ -648,9 +648,13 @@ if (createAccountLink) {
     // Save user session
 
     localStorage.setItem(
-        "user",
-        JSON.stringify(data.user)
-    );
+    "user",
+    JSON.stringify({
+        name: user.name,
+        email: user.email,
+        profilePic: user.profilePic || "images/default-profile.png"
+    })
+);
 
 
     showMessage(
@@ -749,6 +753,36 @@ catch(error){
     function isValidEmail(email) {
 
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    }
+
+});
+document.addEventListener("DOMContentLoaded", () => {
+
+    const navAuth = document.getElementById("navAuth");
+
+    if (!navAuth) return;
+
+
+    const user = JSON.parse(
+        localStorage.getItem("user")
+    );
+
+
+    if (user) {
+
+        navAuth.innerHTML = `
+
+            <a href="profile.html" class="profile-link">
+
+                <img 
+                src="${user.profilePic}"
+                class="profile-img"
+                alt="Profile">
+
+            </a>
+
+        `;
 
     }
 
