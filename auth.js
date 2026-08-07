@@ -566,8 +566,8 @@ if (createAccountLink) {
     if (loginForm) {
 
         loginForm.addEventListener(
-            "submit",
-            (event) => {
+    "submit",
+    async (event) => {
 
                 event.preventDefault();
 
@@ -611,10 +611,89 @@ if (createAccountLink) {
                     later.
                 */
 
-                showMessage(
-                    "Login system is ready for backend connection.",
-                    "success"
-                );
+                try {
+
+    const response = await fetch(
+        "http://localhost:5000/api/users/login",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                email,
+                password:passwordValue
+            })
+        }
+    );
+
+
+    const data = await response.json();
+
+
+    if(!response.ok){
+
+        showMessage(
+            data.message || "Login failed.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    // Save user session
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+    );
+
+
+    showMessage(
+        "Login successful! Redirecting...",
+        "success"
+    );
+
+
+    setTimeout(()=>{
+
+        document.body.classList.add(
+            "slide-out"
+        );
+
+
+        setTimeout(()=>{
+
+            window.location.href =
+            "index.html";
+
+
+        },550);
+
+
+    },1000);
+
+
+
+}
+catch(error){
+
+    console.error(
+        "LOGIN ERROR:",
+        error
+    );
+
+
+    showMessage(
+        "Unable to connect to server.",
+        "error"
+    );
+
+}
 
             }
         );
