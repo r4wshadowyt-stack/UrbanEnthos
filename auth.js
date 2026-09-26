@@ -1,9 +1,10 @@
 /* ==================================================
-   UrbanEthos Authentication JavaScript
+UrbanEthos Authentication JavaScript
 ================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-    /* =========================
+
+/* =========================
    FORGOT PASSWORD
 ========================= */
 
@@ -22,7 +23,6 @@ if (forgotForm) {
 
             event.preventDefault();
 
-
             const email =
                 document
                     .getElementById("forgotEmail")
@@ -38,7 +38,6 @@ if (forgotForm) {
                 );
 
                 return;
-
             }
 
 
@@ -76,7 +75,6 @@ if (forgotLoginLink) {
 
             event.preventDefault();
 
-
             const destination =
                 forgotLoginLink.getAttribute("href");
 
@@ -107,17 +105,16 @@ function showForgotMessage(message, type) {
 
     if (!forgotMessage) return;
 
-
     forgotMessage.textContent =
         message;
-
 
     forgotMessage.className =
         "auth-message " + type;
 
 }
 
-    /* =========================
+
+/* =========================
    REGISTER FORM
 ========================= */
 
@@ -130,196 +127,234 @@ const registerMessage =
 
 if (registerForm) {
 
-    registerForm.addEventListener("submit", async (event) => {
+    registerForm.addEventListener(
+        "submit",
+        async (event) => {
 
-        event.preventDefault();
-
-        const name =
-            document.getElementById("name").value.trim();
-
-        const phone =
-            document.getElementById("registerPhone").value.trim();
-
-        const email =
-            document.getElementById("registerEmail").value.trim();
-
-        const password =
-            document.getElementById("registerPassword").value;
-
-        const confirmPassword =
-            document.getElementById("confirmPassword").value;
-
-        const terms =
-            document.getElementById("terms").checked;
+            event.preventDefault();
 
 
-        /* VALIDATION */
-
-        if (name.length < 2) {
-
-            showRegisterMessage(
-                "Please enter your full name.",
-                "error"
-            );
-
-            return;
-        }
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
 
 
-        if (phone.length < 10) {
-
-            showRegisterMessage(
-                "Please enter a valid phone number.",
-                "error"
-            );
-
-            return;
-        }
+            const phone =
+                document
+                    .getElementById("registerPhone")
+                    .value
+                    .trim();
 
 
-        if (!isValidEmail(email)) {
-
-            showRegisterMessage(
-                "Please enter a valid email address.",
-                "error"
-            );
-
-            return;
-        }
+            const email =
+                document
+                    .getElementById("registerEmail")
+                    .value
+                    .trim();
 
 
-        if (password.length < 6) {
-
-            showRegisterMessage(
-                "Password must contain at least 6 characters.",
-                "error"
-            );
-
-            return;
-        }
+            const password =
+                document
+                    .getElementById("registerPassword")
+                    .value;
 
 
-        if (password !== confirmPassword) {
-
-            showRegisterMessage(
-                "Passwords do not match.",
-                "error"
-            );
-
-            return;
-        }
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
 
 
-        if (!terms) {
-
-            showRegisterMessage(
-                "Please accept the Terms & Conditions.",
-                "error"
-            );
-
-            return;
-        }
+            const terms =
+                document
+                    .getElementById("terms")
+                    .checked;
 
 
-        /* SHOW LOADING */
+            /* =========================
+               VALIDATION
+            ========================= */
 
-        const button =
-            registerForm.querySelector(".auth-button");
-
-        const originalText =
-            button.innerHTML;
-
-        button.disabled = true;
-
-        button.innerHTML =
-            `<span>Creating Account...</span>`;
-
-
-        try {
-
-            const response = await fetch(
-                "http://localhost:5000/api/users/register",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        name,
-                        email,
-                        phone,
-                        password
-                    })
-                }
-            );
-
-
-            const data =
-                await response.json();
-
-
-            if (!response.ok) {
+            if (name.length < 2) {
 
                 showRegisterMessage(
-                    data.message ||
-                    "Registration failed.",
+                    "Please enter your full name.",
                     "error"
                 );
+
+                return;
+            }
+
+
+            if (phone.length < 10) {
+
+                showRegisterMessage(
+                    "Please enter a valid phone number.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!isValidEmail(email)) {
+
+                showRegisterMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password.length < 6) {
+
+                showRegisterMessage(
+                    "Password must contain at least 6 characters.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (password !== confirmPassword) {
+
+                showRegisterMessage(
+                    "Passwords do not match.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!terms) {
+
+                showRegisterMessage(
+                    "Please accept the Terms & Conditions.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* =========================
+               SHOW LOADING
+            ========================= */
+
+            const button =
+                registerForm.querySelector(".auth-button");
+
+
+            const originalText =
+                button.innerHTML;
+
+
+            button.disabled = true;
+
+            button.innerHTML =
+                `<span>Creating Account...</span>`;
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/users/register",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                name,
+                                email,
+                                phone,
+                                password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    showRegisterMessage(
+                        data.message ||
+                        "Registration failed.",
+                        "error"
+                    );
+
+
+                    button.disabled = false;
+
+                    button.innerHTML =
+                        originalText;
+
+                    return;
+                }
+
+
+                /* =========================
+                   SUCCESS
+                ========================= */
+
+                showRegisterMessage(
+                    "Account created successfully! Redirecting...",
+                    "success"
+                );
+
+
+                setTimeout(() => {
+
+                    document.body.classList.add(
+                        "slide-out"
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "login.html";
+
+                    }, 550);
+
+                }, 1000);
+
+
+            } catch (error) {
+
+                console.error(
+                    "REGISTER ERROR:",
+                    error
+                );
+
+
+                showRegisterMessage(
+                    "Unable to connect to the server.",
+                    "error"
+                );
+
 
                 button.disabled = false;
 
                 button.innerHTML =
                     originalText;
 
-                return;
             }
 
-
-            /* SUCCESS */
-
-            showRegisterMessage(
-                "Account created successfully! Redirecting...",
-                "success"
-            );
-
-
-            setTimeout(() => {
-
-                document.body.classList.add(
-                    "slide-out"
-                );
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "login.html";
-
-                }, 550);
-
-            }, 1000);
-
-
-        } catch (error) {
-
-            console.error(
-                "REGISTER ERROR:",
-                error
-            );
-
-            showRegisterMessage(
-                "Unable to connect to the server.",
-                "error"
-            );
-
-            button.disabled = false;
-
-            button.innerHTML =
-                originalText;
         }
-
-    });
+    );
 
 }
 
@@ -330,6 +365,7 @@ if (registerForm) {
 
 const registerPassword =
     document.getElementById("registerPassword");
+
 
 const toggleRegisterPassword =
     document.getElementById("toggleRegisterPassword");
@@ -345,13 +381,27 @@ if (registerPassword && toggleRegisterPassword) {
 
                 registerPassword.type = "text";
 
-                toggleRegisterPassword.textContent = "🙈";
+                toggleRegisterPassword.textContent =
+                    "🙈";
+
+
+                toggleRegisterPassword.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
             } else {
 
                 registerPassword.type = "password";
 
-                toggleRegisterPassword.textContent = "👁";
+                toggleRegisterPassword.textContent =
+                    "👁";
+
+
+                toggleRegisterPassword.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
 
             }
 
@@ -368,6 +418,7 @@ if (registerPassword && toggleRegisterPassword) {
 const confirmPassword =
     document.getElementById("confirmPassword");
 
+
 const toggleConfirmPassword =
     document.getElementById("toggleConfirmPassword");
 
@@ -382,13 +433,27 @@ if (confirmPassword && toggleConfirmPassword) {
 
                 confirmPassword.type = "text";
 
-                toggleConfirmPassword.textContent = "🙈";
+                toggleConfirmPassword.textContent =
+                    "🙈";
+
+
+                toggleConfirmPassword.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
             } else {
 
                 confirmPassword.type = "password";
 
-                toggleConfirmPassword.textContent = "👁";
+                toggleConfirmPassword.textContent =
+                    "👁";
+
+
+                toggleConfirmPassword.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
 
             }
 
@@ -439,10 +504,15 @@ if (loginLink) {
 
             event.preventDefault();
 
+
             const destination =
                 loginLink.getAttribute("href");
 
-            document.body.classList.add("slide-out");
+
+            document.body.classList.add(
+                "slide-out"
+            );
+
 
             setTimeout(() => {
 
@@ -465,19 +535,24 @@ function showRegisterMessage(message, type) {
 
     if (!registerMessage) return;
 
+
     registerMessage.textContent =
         message;
+
 
     registerMessage.className =
         "auth-message " + type;
 
 }
-    /* =========================
+
+
+/* =========================
    CREATE ACCOUNT TRANSITION
 ========================= */
 
 const createAccountLink =
     document.getElementById("createAccountLink");
+
 
 if (createAccountLink) {
 
@@ -487,10 +562,15 @@ if (createAccountLink) {
 
             event.preventDefault();
 
+
             const destination =
                 createAccountLink.getAttribute("href");
 
-            document.body.classList.add("slide-out");
+
+            document.body.classList.add(
+                "slide-out"
+            );
+
 
             setTimeout(() => {
 
@@ -505,285 +585,348 @@ if (createAccountLink) {
 }
 
 
-    /* =========================
-       PASSWORD SHOW / HIDE
-    ========================= */
+/* =========================
+   LOGIN PASSWORD SHOW / HIDE
+========================= */
 
-    const password =
-        document.getElementById("password");
+const password =
+    document.getElementById("password");
 
-    const togglePassword =
-        document.getElementById("togglePassword");
 
+const togglePassword =
+    document.getElementById("togglePassword");
 
-    if (password && togglePassword) {
 
-        togglePassword.addEventListener(
-            "click",
-            () => {
+if (password && togglePassword) {
 
-                if (password.type === "password") {
+    togglePassword.addEventListener(
+        "click",
+        () => {
 
-                    password.type = "text";
+            if (password.type === "password") {
 
-                    togglePassword.textContent = "🙈";
+                password.type = "text";
 
-                    togglePassword.setAttribute(
-                        "aria-label",
-                        "Hide password"
-                    );
+                togglePassword.textContent =
+                    "🙈";
 
-                } else {
 
-                    password.type = "password";
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
-                    togglePassword.textContent = "👁";
+            } else {
 
-                    togglePassword.setAttribute(
-                        "aria-label",
-                        "Show password"
-                    );
+                password.type = "password";
 
-                }
+                togglePassword.textContent =
+                    "👁";
 
-            }
-        );
 
-    }
-
-
-    /* =========================
-       LOGIN FORM
-    ========================= */
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const authMessage =
-        document.getElementById("authMessage");
-
-
-    if (loginForm) {
-
-        loginForm.addEventListener(
-    "submit",
-    async (event) => {
-
-                event.preventDefault();
-
-
-                const email =
-                    document.getElementById("email").value.trim();
-
-                const passwordValue =
-                    document.getElementById("password").value.trim();
-
-
-                if (!email || !passwordValue) {
-
-                    showMessage(
-                        "Please enter your email and password.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                if (!isValidEmail(email)) {
-
-                    showMessage(
-                        "Please enter a valid email address.",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                    TEMPORARY LOGIN
-
-                    We will replace this section
-                    with the real backend authentication
-                    later.
-                */
-
-                try {
-
-    const response = await fetch(
-        "http://localhost:5000/api/users/login",
-        {
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
-            },
-
-            body:JSON.stringify({
-                email,
-                password:passwordValue
-            })
-        }
-    );
-
-
-    const data = await response.json();
-
-
-    if(!response.ok){
-
-        showMessage(
-            data.message || "Login failed.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    // Save user session
-
-    localStorage.setItem(
-    "user",
-    JSON.stringify({
-        name: user.name,
-        email: user.email,
-        profilePic: user.profilePic || "images/default-profile.png"
-    })
-);
-
-
-    showMessage(
-        "Login successful! Redirecting...",
-        "success"
-    );
-
-
-    setTimeout(()=>{
-
-        document.body.classList.add(
-            "slide-out"
-        );
-
-
-        setTimeout(()=>{
-
-            window.location.href =
-            "index.html";
-
-
-        },550);
-
-
-    },1000);
-
-
-
-}
-catch(error){
-
-    console.error(
-        "LOGIN ERROR:",
-        error
-    );
-
-
-    showMessage(
-        "Unable to connect to server.",
-        "error"
-    );
-
-}
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       GOOGLE LOGIN
-    ========================= */
-
-    const googleLogin =
-        document.getElementById("googleLogin");
-
-
-    if (googleLogin) {
-
-        googleLogin.addEventListener(
-            "click",
-            () => {
-
-                showMessage(
-                    "Google login will be connected later.",
-                    "success"
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Show password"
                 );
 
             }
-        );
 
-    }
-
-    /* =========================
-       MESSAGE FUNCTION
-    ========================= */
-
-    function showMessage(message, type) {
-
-        if (!authMessage) return;
-
-
-        authMessage.textContent = message;
-
-        authMessage.className =
-            "auth-message " + type;
-
-    }
-
-
-    /* =========================
-       EMAIL VALIDATION
-    ========================= */
-
-    function isValidEmail(email) {
-
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    }
-
-});
-document.addEventListener("DOMContentLoaded", () => {
-
-    const navAuth = document.getElementById("navAuth");
-
-    if (!navAuth) return;
-
-
-    const user = JSON.parse(
-        localStorage.getItem("user")
+        }
     );
 
+}
 
-    if (user) {
 
-        navAuth.innerHTML = `
+/* =========================
+   LOGIN FORM
+========================= */
 
-            <a href="profile.html" class="profile-link">
+const loginForm =
+    document.getElementById("loginForm");
 
-                <img 
-                src="${user.profilePic}"
-                class="profile-img"
-                alt="Profile">
 
-            </a>
+const authMessage =
+    document.getElementById("authMessage");
 
-        `;
 
-    }
+if (loginForm) {
+
+    loginForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
+
+            const passwordValue =
+                document
+                    .getElementById("password")
+                    .value
+                    .trim();
+
+
+            /* =========================
+               VALIDATION
+            ========================= */
+
+            if (!email || !passwordValue) {
+
+                showMessage(
+                    "Please enter your email and password.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            if (!isValidEmail(email)) {
+
+                showMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            /* =========================
+               LOGIN API
+            ========================= */
+
+            try {
+
+                const response =
+                    await fetch(
+                        "http://localhost:5000/api/users/login",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email,
+                                password: passwordValue
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Login failed.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+
+                /* =========================
+                   SAVE JWT TOKEN
+                ========================= */
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+
+                /* =========================
+                   SAVE USER SESSION
+                ========================= */
+
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                        id: data.user.id,
+                        name: data.user.name,
+                        email: data.user.email,
+                        role: data.user.role,
+                        profilePic:
+                            data.user.profilePic ||
+                            "images/default-profile.png"
+                    })
+                );
+
+
+                console.log(
+                    "✅ User logged in:",
+                    data.user
+                );
+
+
+                showMessage(
+                    "Login successful! Redirecting...",
+                    "success"
+                );
+
+
+                /* =========================
+                   REDIRECT
+                ========================= */
+
+                setTimeout(() => {
+
+                    document.body.classList.add(
+                        "slide-out"
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "index.html";
+
+                    }, 550);
+
+                }, 1000);
+
+
+            } catch (error) {
+
+                console.error(
+                    "LOGIN ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to connect to server.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================
+   GOOGLE LOGIN
+========================= */
+
+const googleLogin =
+    document.getElementById("googleLogin");
+
+
+if (googleLogin) {
+
+    googleLogin.addEventListener(
+        "click",
+        () => {
+
+            showMessage(
+                "Google login will be connected later.",
+                "success"
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   MESSAGE FUNCTION
+========================= */
+
+function showMessage(message, type) {
+
+    if (!authMessage) return;
+
+
+    authMessage.textContent =
+        message;
+
+
+    authMessage.className =
+        "auth-message " + type;
+
+}
+
+
+/* =========================
+   EMAIL VALIDATION
+========================= */
+
+function isValidEmail(email) {
+
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        email
+    );
+
+}
+
 
 });
+
+/* ==================================================
+   NAVBAR AUTH / PROFILE
+================================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const navAuth =
+            document.getElementById("navAuth");
+
+        if (!navAuth) return;
+
+        let user = null;
+
+        try {
+
+            user = JSON.parse(
+                localStorage.getItem("user")
+            );
+
+        } catch (error) {
+
+            console.error(
+                "USER SESSION ERROR:",
+                error
+            );
+
+            localStorage.removeItem("user");
+
+        }
+
+        if (user) {
+
+            navAuth.innerHTML = `
+                <a
+                    href="profile.html"
+                    class="profile-link">
+
+                    <img
+                        src="${user.profilePic || "images/default-profile.png"}"
+                        class="profile-img"
+                        alt="Profile">
+
+                </a>
+            `;
+
+        }
+
+    }
+);

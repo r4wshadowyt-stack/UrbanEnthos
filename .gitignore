@@ -1,0 +1,17 @@
+# Node.js dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Postman
+.postman/
+postman/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
