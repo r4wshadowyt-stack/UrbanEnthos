@@ -1,0 +1,279 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile | UrbanEthos</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .profile-page {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 25px;
+        }
+
+        .profile-card {
+            background: #fff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #7545a5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 38px;
+            font-weight: bold;
+            object-fit: cover;
+        }
+
+        .profile-details {
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        .profile-field {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            overflow-wrap: anywhere;
+        }
+
+        .profile-field strong {
+            display: block;
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .profile-field span {
+            color: #222;
+            font-size: 16px;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .profile-actions a,
+        .profile-actions button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 7px;
+            text-decoration: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .back-home {
+            background: #eee;
+            color: #222;
+        }
+
+        .profile-logout {
+            background: #8b2635;
+            color: white;
+        }
+
+        #profileMessage {
+            margin-top: 18px;
+            color: #8b2635;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 600px) {
+            .profile-page {
+                margin: 25px auto;
+                padding: 15px;
+            }
+
+            .profile-card {
+                padding: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <a href="index.html">
+                <img src="image/logo1.jpg" alt="UrbanEthos Logo">
+            </a>
+            <span>UrbanEthos</span>
+        </div>
+
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main class="profile-page">
+        <section class="profile-card">
+
+            <div id="profileAvatar" class="profile-avatar" aria-label="Profile picture">U</div>
+
+            <h1 id="profileName">Loading profile...</h1>
+            <p>Welcome to your UrbanEthos account.</p>
+
+            <div class="profile-details">
+                <div class="profile-field">
+                    <strong>Full Name</strong>
+                    <span id="userName">Loading...</span>
+                </div>
+
+                <div class="profile-field">
+                    <strong>Email Address</strong>
+                    <span id="userEmail">Loading...</span>
+                </div>
+
+                <div class="profile-field">
+                    <strong>Phone Number</strong>
+                    <span id="userPhone">Not provided</span>
+                </div>
+
+                <div class="profile-field">
+                    <strong>Account Role</strong>
+                    <span id="userRole">User</span>
+                </div>
+            </div>
+
+            <p id="profileMessage" role="status"></p>
+
+            <div class="profile-actions">
+                <a class="back-home" href="index.html">Back to Home</a>
+                <button class="profile-logout" id="profileLogout" type="button">Logout</button>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const token = localStorage.getItem("token");
+            const message = document.getElementById("profileMessage");
+
+            function logout() {
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+                window.location.href = "login.html";
+            }
+
+            document.getElementById("profileLogout")
+                .addEventListener("click", logout);
+
+            if (!token) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            function displayProfile(user) {
+                const name = user.name || "UrbanEthos User";
+
+                document.getElementById("profileName").textContent = name;
+                document.getElementById("userName").textContent = name;
+                document.getElementById("userEmail").textContent =
+                    user.email || "Not provided";
+                document.getElementById("userPhone").textContent =
+                    user.phone || "Not provided";
+                document.getElementById("userRole").textContent =
+                    user.role || "user";
+
+                const avatar = document.getElementById("profileAvatar");
+                const initials = name.trim().split(/\s+/)
+                    .map(part => part[0])
+                    .slice(0, 2)
+                    .join("")
+                    .toUpperCase();
+
+                // Always show an avatar, even when no profile image exists.
+                avatar.textContent = initials || "U";
+
+                if (user.profilePic) {
+                    const image = new Image();
+                    image.onload = () => {
+                        avatar.textContent = "";
+                        avatar.style.backgroundImage = "none";
+                        avatar.src = user.profilePic;
+                    };
+                    image.onerror = () => {
+                        // Keep the initials when the image path is unavailable.
+                    };
+                    image.src = user.profilePic;
+                    avatar.replaceWith(avatar.cloneNode(true));
+
+                    // Restore the avatar element and its initials.
+                    const restored = document.getElementById("profileAvatar");
+                    restored.textContent = initials || "U";
+                    image.onload = () => {
+                        restored.textContent = "";
+                        restored.style.backgroundImage = "none";
+                        restored.style.backgroundColor = "transparent";
+                        restored.style.padding = "0";
+                        restored.src = user.profilePic;
+                    };
+                    image.onerror = () => {
+                        restored.removeAttribute("src");
+                        restored.textContent = initials || "U";
+                    };
+                }
+            }
+
+            try {
+                const response = await fetch(
+                    "http://localhost:5000/api/users/profile",
+                    {
+                        method: "GET",
+                        headers: {
+                            "Authorization": "Bearer " + token,
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.status === 401 || response.status === 403) {
+                    logout();
+                    return;
+                }
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Unable to load profile.");
+                }
+
+                const user = data.user || data;
+
+                displayProfile(user);
+                localStorage.setItem("user", JSON.stringify(user));
+
+            } catch (error) {
+                console.error("PROFILE ERROR:", error);
+                message.textContent =
+                    "Could not load the latest profile. Please check that the backend is running.";
+            }
+        });
+    </script>
+<script src="auth.js"></script>
+</body>
+
+</html>
