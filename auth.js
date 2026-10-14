@@ -1,5 +1,14 @@
+
 /* ==================================================
    UrbanEthos Authentication JavaScript
+================================================== */
+
+// Deployed UrbanEthos backend
+const API_BASE_URL = "https://urbanethos-api.onrender.com";
+
+
+/* ==================================================
+   AUTHENTICATION FORMS
 ================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -18,14 +27,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const email = document.getElementById("forgotEmail").value.trim();
 
             if (!isValidEmail(email)) {
-                showForgotMessage("Please enter a valid email address.", "error");
+                showForgotMessage(
+                    "Please enter a valid email address.",
+                    "error"
+                );
                 return;
             }
 
-            // Temporary frontend message; password reset email is not connected yet.
+            // Password reset service is not connected yet.
             showForgotMessage(
-                "If an account exists with this email, a reset link will be sent.",
-                "success"
+                "Password reset is not available yet. Please contact support.",
+                "error"
             );
         });
     }
@@ -41,6 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
             const destination = forgotLoginLink.getAttribute("href");
+
+            if (!destination) return;
+
             document.body.classList.add("slide-out");
 
             setTimeout(() => {
@@ -49,16 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =========================
-       FORGOT MESSAGE
-    ========================= */
-
     function showForgotMessage(message, type) {
         if (!forgotMessage) return;
 
         forgotMessage.textContent = message;
         forgotMessage.className = "auth-message " + type;
     }
+
 
     /* =========================
        REGISTER FORM
@@ -76,16 +88,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const email = document.getElementById("registerEmail").value.trim();
             const password = document.getElementById("registerPassword").value;
             const confirmPassword = document.getElementById("confirmPassword").value;
-            const terms = document.getElementById("terms").checked;
-
-            /* VALIDATION */
+            const termsElement = document.getElementById("terms");
+            const terms = termsElement ? termsElement.checked : false;
 
             if (name.length < 2) {
                 showRegisterMessage("Please enter your full name.", "error");
                 return;
             }
 
-            if (phone.length < 10) {
+            if (phone.replace(/\D/g, "").length < 10) {
                 showRegisterMessage("Please enter a valid phone number.", "error");
                 return;
             }
@@ -116,19 +127,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            /* SHOW LOADING */
-
             const button = registerForm.querySelector(".auth-button");
             const originalText = button ? button.innerHTML : "";
 
             if (button) {
                 button.disabled = true;
-                button.innerHTML = "<span>Creating Account...</span>";
+                button.textContent = "Creating Account...";
             }
 
             try {
                 const response = await fetch(
-                    "http://localhost:5000/api/users/register",
+                    `${ API_BASE_URL } /api/users / register`,
                     {
                         method: "POST",
                         headers: {
@@ -150,16 +159,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         data.message || "Registration failed.",
                         "error"
                     );
-
-                    if (button) {
-                        button.disabled = false;
-                        button.innerHTML = originalText;
-                    }
                     return;
                 }
 
                 showRegisterMessage(
-                    "Account created successfully! Redirecting...",
+                    "Account created successfully! Redirecting to login...",
                     "success"
                 );
 
@@ -175,10 +179,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("REGISTER ERROR:", error);
 
                 showRegisterMessage(
-                    "Unable to connect to the server.",
+                    "Unable to connect to the server. Please try again later.",
                     "error"
                 );
 
+            } finally {
                 if (button) {
                     button.disabled = false;
                     button.innerHTML = originalText;
@@ -187,61 +192,56 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function showRegisterMessage(message, type) {
+        if (!registerMessage) return;
+
+        registerMessage.textContent = message;
+        registerMessage.className = "auth-message " + type;
+    }
+
+
     /* =========================
-       REGISTER PASSWORD TOGGLE
+       PASSWORD VISIBILITY
     ========================= */
 
-    const registerPassword = document.getElementById("registerPassword");
-    const toggleRegisterPassword = document.getElementById("toggleRegisterPassword");
+    function setupPasswordToggle(inputId, buttonId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(buttonId);
 
-    if (registerPassword && toggleRegisterPassword) {
-        toggleRegisterPassword.addEventListener("click", () => {
-            if (registerPassword.type === "password") {
-                registerPassword.type = "text";
-                toggleRegisterPassword.textContent = "🙈";
-                toggleRegisterPassword.setAttribute("aria-label", "Hide password");
-            } else {
-                registerPassword.type = "password";
-                toggleRegisterPassword.textContent = "👁";
-                toggleRegisterPassword.setAttribute("aria-label", "Show password");
-            }
+        if (!input || !toggle) return;
+
+        toggle.addEventListener("click", () => {
+            const showing = input.type === "password";
+
+            input.type = showing ? "text" : "password";
+            toggle.textContent = showing ? "🙈" : "👁";
+            toggle.setAttribute(
+                "aria-label",
+                showing ? "Hide password" : "Show password"
+            );
         });
     }
 
+    setupPasswordToggle("registerPassword", "toggleRegisterPassword");
+    setupPasswordToggle("confirmPassword", "toggleConfirmPassword");
+    setupPasswordToggle("password", "togglePassword");
+
+
     /* =========================
-       CONFIRM PASSWORD TOGGLE
+       GOOGLE REGISTER
     ========================= */
-
-    const confirmPassword = document.getElementById("confirmPassword");
-    const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
-
-    if (confirmPassword && toggleConfirmPassword) {
-        toggleConfirmPassword.addEventListener("click", () => {
-            if (confirmPassword.type === "password") {
-                confirmPassword.type = "text";
-                toggleConfirmPassword.textContent = "🙈";
-                toggleConfirmPassword.setAttribute("aria-label", "Hide password");
-            } else {
-                confirmPassword.type = "password";
-                toggleConfirmPassword.textContent = "👁";
-                toggleConfirmPassword.setAttribute("aria-label", "Show password");
-            }
-        });
-    }
-    /* =========================
-   GOOGLE REGISTER
-========================= */
 
     const googleRegister = document.getElementById("googleRegister");
 
     if (googleRegister) {
         googleRegister.addEventListener("click", () => {
             showRegisterMessage(
-                "Google sign-up will be connected later.",
-                "success"
+                "Google sign-up is not available yet.",
+                "error"
             );
         });
     }
+
 
     /* =========================
        REGISTER → LOGIN
@@ -254,6 +254,9 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
             const destination = loginLink.getAttribute("href");
+
+            if (!destination) return;
+
             document.body.classList.add("slide-out");
 
             setTimeout(() => {
@@ -262,19 +265,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =========================
-       REGISTER MESSAGE
-    ========================= */
-
-    function showRegisterMessage(message, type) {
-        if (!registerMessage) return;
-
-        registerMessage.textContent = message;
-        registerMessage.className = "auth-message " + type;
-    }
 
     /* =========================
-       CREATE ACCOUNT TRANSITION
+       LOGIN → REGISTER
     ========================= */
 
     const createAccountLink = document.getElementById("createAccountLink");
@@ -284,6 +277,9 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
             const destination = createAccountLink.getAttribute("href");
+
+            if (!destination) return;
+
             document.body.classList.add("slide-out");
 
             setTimeout(() => {
@@ -292,26 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =========================
-       LOGIN PASSWORD SHOW / HIDE
-    ========================= */
-
-    const password = document.getElementById("password");
-    const togglePassword = document.getElementById("togglePassword");
-
-    if (password && togglePassword) {
-        togglePassword.addEventListener("click", () => {
-            if (password.type === "password") {
-                password.type = "text";
-                togglePassword.textContent = "🙈";
-                togglePassword.setAttribute("aria-label", "Hide password");
-            } else {
-                password.type = "password";
-                togglePassword.textContent = "👁";
-                togglePassword.setAttribute("aria-label", "Show password");
-            }
-        });
-    }
 
     /* =========================
        LOGIN FORM
@@ -325,11 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
             const email = document.getElementById("email").value.trim();
-            const passwordValue = document.getElementById("password").value;
+            const password = document.getElementById("password").value;
 
-            /* VALIDATION */
-
-            if (!email || !passwordValue) {
+            if (!email || !password) {
                 showMessage(
                     "Please enter your email and password.",
                     "error"
@@ -338,18 +312,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (!isValidEmail(email)) {
-                showMessage(
-                    "Please enter a valid email address.",
-                    "error"
-                );
+                showMessage("Please enter a valid email address.", "error");
                 return;
             }
 
-            /* LOGIN API */
+            const button = loginForm.querySelector(".auth-button");
+            const originalText = button ? button.innerHTML : "";
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = "Logging in...";
+            }
 
             try {
                 const response = await fetch(
-                    "http://localhost:5000/api/users/login",
+                    `${ API_BASE_URL } /api/users / login`,
                     {
                         method: "POST",
                         headers: {
@@ -357,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         },
                         body: JSON.stringify({
                             email,
-                            password: passwordValue
+                            password
                         })
                     }
                 );
@@ -365,10 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const data = await response.json();
 
                 if (!response.ok) {
-                    showMessage(
-                        data.message || "Login failed.",
-                        "error"
-                    );
+                    showMessage(data.message || "Login failed.", "error");
                     return;
                 }
 
@@ -380,11 +354,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                /* SAVE JWT TOKEN */
-
+                // Save authentication session.
                 localStorage.setItem("token", data.token);
-
-                /* SAVE USER SESSION */
 
                 localStorage.setItem(
                     "user",
@@ -400,14 +371,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                 );
 
-                console.log("User logged in:", data.user);
-
                 showMessage(
                     "Login successful! Redirecting...",
                     "success"
                 );
-
-                /* REDIRECT */
 
                 setTimeout(() => {
                     document.body.classList.add("slide-out");
@@ -421,12 +388,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("LOGIN ERROR:", error);
 
                 showMessage(
-                    "Unable to connect to server.",
+                    "Unable to connect to the server. Please try again later.",
                     "error"
                 );
+
+            } finally {
+                if (button) {
+                    button.disabled = false;
+                    button.innerHTML = originalText;
+                }
             }
         });
     }
+
 
     /* =========================
        GOOGLE LOGIN
@@ -437,14 +411,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (googleLogin) {
         googleLogin.addEventListener("click", () => {
             showMessage(
-                "Google login will be connected later.",
-                "success"
+                "Google login is not available yet.",
+                "error"
             );
         });
     }
 
+
     /* =========================
-       MESSAGE FUNCTION
+       LOGIN MESSAGE
     ========================= */
 
     function showMessage(message, type) {
@@ -453,6 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
         authMessage.textContent = message;
         authMessage.className = "auth-message " + type;
     }
+
 
     /* =========================
        EMAIL VALIDATION
@@ -463,8 +439,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+
 /* ==================================================
-   NAVBAR AUTH / PROFILE
+   NAVBAR AUTHENTICATION / PROFILE
 ================================================== */
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -473,93 +451,51 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!navAuth) return;
 
-    /* CART — KEEP VISIBLE */
-
     const cartMarkup = `
-        <a href="cart.html" class="cart-btn">
-            🛒 Cart <span id="cart-count">0</span>
-        </a>
+    < a href = "cart.html" class="cart-btn" >
+            🛒 Cart < span id = "cart-count" > 0</span >
+        </a >
     `;
-
-    /* GET SAVED SESSION */
 
     const token = localStorage.getItem("token");
 
     let user = null;
 
     try {
-        user = JSON.parse(
-            localStorage.getItem("user") || "null"
-        );
+        user = JSON.parse(localStorage.getItem("user") || "null");
     } catch (error) {
         console.error("USER SESSION ERROR:", error);
         localStorage.removeItem("user");
     }
 
-    /* SHOW LOGIN AND SIGN UP WHEN LOGGED OUT */
+
+    /* =========================
+       LOGGED-OUT NAVBAR
+    ========================= */
 
     function showLoggedOutNavbar() {
         navAuth.innerHTML = `
-            ${cartMarkup}
-            <a href="login.html" class="login-btn-nav">
-                Login
-            </a>
-            <a href="register.html" class="signup-btn">
-                Sign Up
-            </a>
-        `;
+            ${ cartMarkup }
+            <a href="login.html" class="login-btn-nav">Login</a>
+            <a href="register.html" class="signup-btn">Sign Up</a>
+`;
     }
 
-    /* CLEAR SESSION AND LOG OUT */
+
+    /* =========================
+       LOGOUT
+    ========================= */
 
     function logout() {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-
         window.location.href = "login.html";
     }
 
-    /* SHOW PROFILE AND LOGOUT */
 
-    function showLoggedInNavbar(currentUser) {
-        const profileImage =
-            currentUser.profilePic ||
-            "images/default-profile.png";
-
-        navAuth.innerHTML = `
-            ${cartMarkup}
-
-            <a
-                href="profile.html"
-                class="profile-link"
-                aria-label="My profile"
-                title="${escapeHTML(currentUser.name || "My profile")}"
-            >
-                <img
-                    src="${escapeHTML(profileImage)}"
-                    class="profile-img"
-                    alt="Profile"
-                    onerror="this.onerror=null;this.src='images/default-profile.png';"
-                >
-            </a>
-
-            <button
-                type="button"
-                class="logout-btn"
-                id="logoutBtn"
-            >
-                Logout
-            </button>
-        `;
-
-        const logoutBtn = document.getElementById("logoutBtn");
-
-        if (logoutBtn) {
-            logoutBtn.addEventListener("click", logout);
-        }
-    }
-
-    /* BASIC HTML ESCAPING FOR DISPLAY VALUES */
+    /* =========================
+       HTML ESCAPING
+    ========================= */
 
     function escapeHTML(value) {
         return String(value).replace(/[&<>"']/g, (character) => {
@@ -575,35 +511,82 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    /* NO SESSION */
+
+    /* =========================
+       LOGGED-IN NAVBAR
+    ========================= */
+
+    function showLoggedInNavbar(currentUser) {
+        const profileImage =
+            currentUser.profilePic ||
+            "images/default-profile.png";
+
+        navAuth.innerHTML = `
+            ${ cartMarkup }
+
+<a
+    href="profile.html"
+    class="profile-link"
+    aria-label="My profile"
+    title="${escapeHTML(currentUser.name || " My profile")}"
+        >
+                <img
+                    src="${escapeHTML(profileImage)}"
+                    class="profile-img"
+                    alt="Profile"
+                    onerror="this.onerror=null;this.src='images/default-profile.png';"
+                >
+            </a>
+
+            <button
+                type="button"
+                class="logout-btn"
+                id="logoutBtn"
+            >
+                Logout
+            </button>
+`;
+
+        const logoutBtn = document.getElementById("logoutBtn");
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener("click", logout);
+        }
+    }
+
+
+    /* =========================
+       NO SAVED SESSION
+    ========================= */
 
     if (!token || !user) {
         showLoggedOutNavbar();
         return;
     }
 
-    /* FETCH THE REAL PROFILE FROM THE BACKEND */
+
+    /* =========================
+       FETCH PROFILE FROM BACKEND
+    ========================= */
 
     try {
         const response = await fetch(
-            "http://localhost:5000/api/users/profile",
+            `${ API_BASE_URL } /api/users / profile`,
             {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${ token } `,
                     "Content-Type": "application/json"
                 }
             }
         );
 
-        const data = await response.json();
-
-        /* INVALID OR EXPIRED TOKEN */
-
         if (response.status === 401 || response.status === 403) {
             logout();
             return;
         }
+
+        const data = await response.json();
 
         if (!response.ok) {
             throw new Error(
@@ -611,15 +594,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
         }
 
-        /*
-          Supports either:
-          { "user": { ... } }
-          or a direct user object.
-        */
-
         const profile = data.user || data;
-
-        /* UPDATE SAVED USER INFORMATION */
 
         user = {
             ...user,
@@ -636,19 +611,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         localStorage.setItem("user", JSON.stringify(user));
 
-        /* DISPLAY PROFILE */
-
         showLoggedInNavbar(user);
 
     } catch (error) {
         console.error("PROFILE / SESSION ERROR:", error);
 
-        /*
-          If the backend is temporarily unavailable,
-          preserve the saved session and show the
-          profile link instead of logging the user out.
-        */
-
+        // Preserve the saved session during temporary server errors.
         showLoggedInNavbar(user);
     }
 
