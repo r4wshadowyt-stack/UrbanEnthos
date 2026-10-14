@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,33 +6,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <meta name="description"
+        content="Sign in to your UrbanEthos account to explore personalized gifts and handcrafted creations.">
+
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
     <title>Login | UrbanEthos</title>
 
-    <!-- Authentication CSS -->
     <link rel="stylesheet" href="auth.css">
 </head>
 
 <body class="auth-page">
 
-    <!-- Background Decorations -->
-    <div class="bg-shape shape-one"></div>
-    <div class="bg-shape shape-two"></div>
-    <div class="bg-shape shape-three"></div>
-
-    <!-- Main Authentication Area -->
     <main class="auth-container">
 
-        <!-- Left Side -->
         <section class="auth-showcase">
-
             <div class="showcase-content">
 
-                <div class="auth-logo">
-                    <img src="image/logo1.jpg" alt="UrbanEthos Logo">
-                </div>
+                <a href="index.html" class="auth-logo">
+                    <img src="image/logo1.jpg" alt="UrbanEthos logo">
+                </a>
 
                 <span class="showcase-tag">
-                    ✨ Welcome Back
+                    Welcome Back
                 </span>
 
                 <h1>
@@ -40,220 +37,89 @@
                 </h1>
 
                 <p>
-                    Sign in to your UrbanEthos account and
-                    continue discovering personalized gifts
-                    and handcrafted creations.
+                    Sign in to your UrbanEthos account and continue
+                    discovering personalized gifts and handcrafted
+                    creations.
                 </p>
 
-                <div class="showcase-decoration">
-                    <span>🎁</span>
-                    <span>✨</span>
-                    <span>💝</span>
-                </div>
-
             </div>
-
         </section>
 
+        <section class="auth-box" aria-labelledby="loginHeading">
 
-        <!-- Login Card -->
-        <section class="auth-box">
+            <header class="auth-header">
+                <span class="small-title">URBANETHOS</span>
 
-            <div class="auth-header">
+                <h2 id="loginHeading">Welcome Back</h2>
 
-                <span class="small-title">
-                    URBANETHOS
-                </span>
+                <p>Sign in to your account</p>
+            </header>
 
-                <h2>
-                    Welcome Back
-                </h2>
-
-                <p>
-                    Login to your account
-                </p>
-
-            </div>
-
-
-            <!-- Login Form -->
             <form id="loginForm" class="auth-form">
 
-                <!-- Email -->
                 <div class="form-group">
-
-                    <label for="email">
-                        Email Address
-                    </label>
+                    <label for="email">Email Address</label>
 
                     <div class="input-wrapper">
-
-                        <span class="input-icon">
-                            ✉
-                        </span>
-
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            placeholder="Enter your email"
-                            autocomplete="email"
-                            required>
-
+                        <input type="email" id="email" name="email" placeholder="Enter your email"
+                            autocomplete="username" maxlength="254" required>
                     </div>
-
                 </div>
 
-
-                <!-- Password -->
                 <div class="form-group">
-
                     <div class="password-label">
-
-                        <label for="password">
-                            Password
-                        </label>
+                        <label for="password">Password</label>
 
                         <a href="forgot-password.html">
                             Forgot Password?
                         </a>
-
                     </div>
 
                     <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password"
+                            autocomplete="current-password" required>
 
-                        <span class="input-icon">
-                            🔒
-                        </span>
-
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            placeholder="Enter your password"
-                            autocomplete="current-password"
-                            required>
-
-                        <button
-                            type="button"
-                            class="password-toggle"
-                            id="togglePassword"
-                            aria-label="Show password">
-
-                            👁
-
+                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password"
+                            aria-controls="password">
+                            Show
                         </button>
-
                     </div>
-
                 </div>
 
-
-                <!-- Remember -->
                 <div class="remember-row">
-
                     <label class="remember">
-
-                        <input
-                            type="checkbox"
-                            id="rememberMe">
-
-                        <span>
-                            Remember me
-                        </span>
-
+                        <input type="checkbox" id="rememberMe">
+                        <span>Remember me</span>
                     </label>
-
                 </div>
 
-
-                <!-- Login Button -->
-                <button
-                    type="submit"
-                    class="auth-button">
-
-                    <span>
-                        Sign In
-                    </span>
-
-                    <span class="button-arrow">
+                <button type="submit" class="auth-button">
+                    <span>Sign In</span>
+                    <span class="button-arrow" aria-hidden="true">
                         →
                     </span>
-
                 </button>
 
-
-                <!-- Message -->
-                <div
-                    id="authMessage"
-                    class="auth-message">
-                </div>
+                <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
 
             </form>
 
-
-            <!-- Divider -->
-            <div class="divider">
-
-                <span></span>
-
-                <p>
-                    or continue with
-                </p>
-
-                <span></span>
-
+            <div class="register-link">
+                <p>Don't have an account?</p>
+                <a href="register.html" id="createAccountLink">
+                    Create Account
+                </a>
             </div>
 
-
-            <!-- Social Login -->
-            <div class="social-login">
-
-    <button
-        type="button"
-        class="social-btn"
-        id="googleLogin">
-
-        <span class="google-icon">
-            G
-        </span>
-
-        Continue with Google
-
-    </button>
-
-</div>
-
-
-           <div class="register-link">
-
-    <p>
-        Don't have an account?
-    </p>
-
-    <a href="register.html" id="createAccountLink">
-        Create Account
-    </a>
-
-</div>
-
-
-            <!-- Back Home -->
-            <a
-                href="index.html"
-                class="back-home">
-
+            <a href="index.html" class="back-home">
                 ← Back to UrbanEthos
-
             </a>
 
         </section>
 
     </main>
 
-
-    <!-- Frontend Authentication JS -->
-    <script src="auth.js"></script>
+    <script src="auth.js" defer></script>
 
 </body>
 
