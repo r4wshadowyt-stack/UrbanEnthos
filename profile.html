@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,100 +9,311 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .profile-page {
-            max-width: 650px;
-            margin: 60px auto;
-            padding: 25px;
+        .ue-profile {
+            --profile-accent: #7545a5;
+            --profile-ink: #2d2d2d;
+            --profile-muted: #777;
+            max-width: 1050px;
+            margin: 45px auto;
+            padding: 0 22px 50px;
+            color: var(--profile-ink);
         }
 
-        .profile-card {
+        .ue-profile * {
+            box-sizing: border-box;
+        }
+
+        .profile-heading {
+            margin-bottom: 25px;
+        }
+
+        .profile-heading h1 {
+            font-size: clamp(26px, 4vw, 36px);
+            margin-bottom: 8px;
+        }
+
+        .profile-heading p,
+        .profile-subtitle {
+            color: var(--profile-muted);
+            line-height: 1.6;
+        }
+
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 300px minmax(0, 1fr);
+            gap: 24px;
+            align-items: start;
+        }
+
+        .ue-profile .profile-panel {
             background: #fff;
-            padding: 35px;
-            border-radius: 16px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.10);
+            border: 1px solid #eae5e0;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 8px 28px rgba(45, 35, 25, 0.06);
+            min-width: 0;
+        }
+
+        .profile-summary {
             text-align: center;
         }
 
+        .profile-avatar-wrap {
+            width: 112px;
+            height: 112px;
+            margin: 0 auto 18px;
+            position: relative;
+        }
+
         .profile-avatar {
-            width: 110px;
-            height: 110px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
-            background: #7545a5;
-            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 38px;
-            font-weight: bold;
             object-fit: cover;
+            background: #eee4f5;
+            color: var(--profile-accent);
+            font-size: 34px;
+            font-weight: 700;
+            border: 4px solid #f7f1fa;
         }
 
-        .profile-details {
-            text-align: left;
-            margin-top: 30px;
-        }
-
-        .profile-field {
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-            overflow-wrap: anywhere;
-        }
-
-        .profile-field strong {
-            display: block;
-            color: #777;
-            font-size: 13px;
-            margin-bottom: 6px;
-        }
-
-        .profile-field span {
-            color: #222;
-            font-size: 16px;
-        }
-
-        .profile-actions {
-            display: flex;
+        .avatar-edit {
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: var(--profile-accent);
+            color: white;
+            cursor: pointer;
+        }
+
+        .avatar-edit input {
+            display: none;
+        }
+
+        .profile-summary h2 {
+            font-size: 22px;
+            overflow-wrap: anywhere;
+            margin-bottom: 7px;
+        }
+
+        .profile-role {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 13px;
+            border-radius: 30px;
+            background: #f2eaf8;
+            color: var(--profile-accent);
+            font-size: 12px;
+            text-transform: capitalize;
+        }
+
+        .profile-summary-note {
+            margin-top: 18px;
+            color: var(--profile-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .profile-divider {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 24px 0;
+        }
+
+        .profile-side-links {
+            display: grid;
+            gap: 10px;
+        }
+
+        .profile-side-links a {
+            padding: 12px 14px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: var(--profile-ink);
+            background: #faf8f6;
+            transition: background 0.2s ease;
+        }
+
+        .profile-side-links a:hover {
+            background: #f0e8f6;
+        }
+
+        .profile-section-title {
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+
+        .profile-subtitle {
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .profile-form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .profile-form label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .profile-form input {
+            width: 100%;
+            min-width: 0;
+            padding: 13px 14px;
+            border: 1px solid #ded8d2;
+            border-radius: 9px;
+            font: inherit;
+            color: var(--profile-ink);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .profile-form input:focus {
+            border-color: var(--profile-accent);
+            box-shadow: 0 0 0 3px rgba(117, 69, 165, 0.12);
+        }
+
+        .profile-form input:disabled {
+            background: #f5f3f1;
+            cursor: not-allowed;
+        }
+
+        .profile-buttons {
+            display: flex;
             gap: 12px;
             flex-wrap: wrap;
-            margin-top: 25px;
+            margin-top: 5px;
         }
 
-        .profile-actions a,
-        .profile-actions button {
-            padding: 12px 20px;
+        .profile-btn {
             border: none;
-            border-radius: 7px;
-            text-decoration: none;
+            border-radius: 9px;
+            padding: 12px 19px;
+            font: inherit;
+            font-weight: 600;
             cursor: pointer;
-            font-size: 15px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, opacity 0.2s;
         }
 
-        .back-home {
-            background: #eee;
-            color: #222;
+        .profile-btn:hover {
+            transform: translateY(-1px);
         }
 
-        .profile-logout {
+        .profile-btn:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            transform: none;
+        }
+
+        .profile-btn-primary {
+            color: white;
+            background: var(--profile-accent);
+        }
+
+        .profile-btn-secondary {
+            background: #eee9e4;
+            color: #333;
+        }
+
+        .profile-btn-danger {
             background: #8b2635;
             color: white;
+            width: 100%;
+            margin-top: 14px;
         }
 
-        #profileMessage {
-            margin-top: 18px;
-            color: #8b2635;
+        .profile-message {
+            display: none;
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
             overflow-wrap: anywhere;
         }
 
-        @media (max-width: 600px) {
-            .profile-page {
-                margin: 25px auto;
-                padding: 15px;
+        .profile-message.success {
+            display: block;
+            color: #17633b;
+            background: #eaf7ef;
+        }
+
+        .profile-message.error {
+            display: block;
+            color: #8b2635;
+            background: #fff0f0;
+        }
+
+        .profile-message.info {
+            display: block;
+            color: #62428a;
+            background: #f2eaf8;
+        }
+
+        .profile-hidden {
+            display: none !important;
+        }
+
+        .profile-footer {
+            margin-top: 24px;
+            text-align: center;
+            color: var(--profile-muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 760px) {
+            .ue-profile {
+                margin-top: 28px;
+                padding: 0 15px 35px;
             }
 
-            .profile-card {
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .ue-profile .profile-panel {
                 padding: 22px;
+            }
+
+            .profile-summary {
+                padding-bottom: 25px !important;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .profile-buttons {
+                flex-direction: column;
+            }
+
+            .profile-buttons .profile-btn {
+                width: 100%;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .ue-profile *,
+            .ue-profile *::before,
+            .ue-profile *::after {
+                transition: none !important;
             }
         }
     </style>
@@ -127,50 +337,176 @@
         </nav>
     </header>
 
-    <main class="profile-page">
-        <section class="profile-card">
+    <main class="ue-profile">
 
-            <div id="profileAvatar" class="profile-avatar" aria-label="Profile picture">U</div>
+        <div class="profile-heading">
+            <h1>My Account</h1>
+            <p>Manage your personal information and UrbanEthos account.</p>
+        </div>
 
-            <h1 id="profileName">Loading profile...</h1>
-            <p>Welcome to your UrbanEthos account.</p>
+        <div class="profile-layout">
 
-            <div class="profile-details">
-                <div class="profile-field">
-                    <strong>Full Name</strong>
-                    <span id="userName">Loading...</span>
+            <aside class="profile-panel profile-summary">
+
+                <div class="profile-avatar-wrap">
+                    <img id="profileAvatar" class="profile-avatar" alt="Profile picture" hidden>
+
+                    <div id="profileInitials" class="profile-avatar">U</div>
+
+                    <label class="avatar-edit" for="avatarInput" title="Choose profile picture">
+                        ✎
+                        <input id="avatarInput" type="file" accept="image/jpeg,image/png,image/webp">
+                    </label>
                 </div>
 
-                <div class="profile-field">
-                    <strong>Email Address</strong>
-                    <span id="userEmail">Loading...</span>
-                </div>
+                <h2 id="profileName">Loading profile...</h2>
+                <p id="profileEmail" class="profile-subtitle"></p>
+                <span id="profileRole" class="profile-role">User</span>
 
-                <div class="profile-field">
-                    <strong>Phone Number</strong>
-                    <span id="userPhone">Not provided</span>
-                </div>
+                <p class="profile-summary-note">
+                    Welcome back! Keep your account information up to date.
+                </p>
 
-                <div class="profile-field">
-                    <strong>Account Role</strong>
-                    <span id="userRole">User</span>
-                </div>
+                <hr class="profile-divider">
+
+                <nav class="profile-side-links">
+                    <a href="#personalDetails">👤 Personal information</a>
+                    <a href="#accountSecurity">🔒 Account security</a>
+                    <a href="index.html">← Back to home</a>
+                </nav>
+
+                <button id="profileLogout" class="profile-btn profile-btn-danger" type="button">
+                    Logout
+                </button>
+
+            </aside>
+
+            <div class="profile-content">
+
+                <section class="profile-panel" id="personalDetails">
+                    <h2 class="profile-section-title">Personal Information</h2>
+                    <p class="profile-subtitle">
+                        Update the details associated with your account.
+                    </p>
+
+                    <div id="profileMessage" class="profile-message" role="status" aria-live="polite"></div>
+
+                    <form id="profileForm" class="profile-form">
+
+                        <div>
+                            <label for="editName">Full Name</label>
+                            <input type="text" id="editName" name="name" autocomplete="name" minlength="2"
+                                maxlength="100" required disabled>
+                        </div>
+
+                        <div>
+                            <label for="editEmail">Email Address</label>
+                            <input type="email" id="editEmail" name="email" autocomplete="email" maxlength="254"
+                                required disabled>
+                        </div>
+
+                        <div>
+                            <label for="editPhone">Mobile Number</label>
+                            <input type="tel" id="editPhone" name="phone" autocomplete="tel" maxlength="20"
+                                pattern="[+0-9() -]{7,20}" title="Enter a valid phone number." disabled>
+                        </div>
+
+                        <div class="profile-buttons">
+                            <button id="editProfileBtn" class="profile-btn profile-btn-secondary" type="button">
+                                Edit Profile
+                            </button>
+
+                            <button id="saveProfileBtn" class="profile-btn profile-btn-primary profile-hidden"
+                                type="submit">
+                                Save Changes
+                            </button>
+
+                            <button id="cancelEditBtn" class="profile-btn profile-btn-secondary profile-hidden"
+                                type="button">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <section class="profile-panel" id="accountSecurity" style="margin-top:24px;">
+                
+                    <h2 class="profile-section-title">Change Password</h2>
+                
+                    <p class="profile-subtitle">
+                        Choose a strong password to keep your account secure.
+                    </p>
+                
+                    <div id="passwordMessage" class="profile-message" role="status" aria-live="polite"></div>
+                
+                    <form id="changePasswordForm" class="profile-form">
+                
+                        <div>
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
+                        </div>
+                
+                        <div>
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" minlength="8"
+                                maxlength="72" required>
+                        </div>
+                
+                        <div>
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" minlength="8"
+                                maxlength="72" required>
+                        </div>
+                
+                        <div class="profile-buttons">
+                            <button type="submit" id="changePasswordBtn" class="profile-btn profile-btn-primary">
+                                Update Password
+                            </button>
+                        </div>
+                
+                    </form>
+                </section>
+
+                <p class="profile-footer">
+                    UrbanEthos · Your style, your account.
+                </p>
+
             </div>
-
-            <p id="profileMessage" role="status"></p>
-
-            <div class="profile-actions">
-                <a class="back-home" href="index.html">Back to Home</a>
-                <button class="profile-logout" id="profileLogout" type="button">Logout</button>
-            </div>
-
-        </section>
+        </div>
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
+        document.addEventListener("DOMContentLoaded", () => {
+            const API_BASE = "http://localhost:5000/api/users";
             const token = localStorage.getItem("token");
-            const message = document.getElementById("profileMessage");
+
+            const $ = (id) => document.getElementById(id);
+
+            const form = $("profileForm");
+            const message = $("profileMessage");
+            const avatar = $("profileAvatar");
+            const initialsBox = $("profileInitials");
+            const avatarInput = $("avatarInput");
+
+            const editButton = $("editProfileBtn");
+            const saveButton = $("saveProfileBtn");
+            const cancelButton = $("cancelEditBtn");
+
+            let currentUser = null;
+            let originalValues = null;
+            let selectedAvatarFile = null;
+            let previewUrl = null;
+
+            function showMessage(text, type = "info") {
+                message.textContent = text;
+                message.className = "profile-message " + type;
+            }
+
+            function showSecurityMessage(text) {
+                const box = $("passwordSetupMessage");
+                box.textContent = text;
+                box.className = "profile-message info";
+            }
 
             function logout() {
                 localStorage.removeItem("token");
@@ -178,102 +514,359 @@
                 window.location.href = "login.html";
             }
 
-            document.getElementById("profileLogout")
-                .addEventListener("click", logout);
+            $("profileLogout").addEventListener("click", logout);
 
             if (!token) {
-                window.location.href = "login.html";
+                window.location.replace("login.html");
                 return;
             }
 
-            function displayProfile(user) {
-                const name = user.name || "UrbanEthos User";
-
-                document.getElementById("profileName").textContent = name;
-                document.getElementById("userName").textContent = name;
-                document.getElementById("userEmail").textContent =
-                    user.email || "Not provided";
-                document.getElementById("userPhone").textContent =
-                    user.phone || "Not provided";
-                document.getElementById("userRole").textContent =
-                    user.role || "user";
-
-                const avatar = document.getElementById("profileAvatar");
-                const initials = name.trim().split(/\s+/)
-                    .map(part => part[0])
+            function getInitials(name) {
+                return (name || "UrbanEthos User")
+                    .trim()
+                    .split(/\s+/)
                     .slice(0, 2)
+                    .map(part => part[0] || "")
                     .join("")
-                    .toUpperCase();
-
-                // Always show an avatar, even when no profile image exists.
-                avatar.textContent = initials || "U";
-
-                if (user.profilePic) {
-                    const image = new Image();
-                    image.onload = () => {
-                        avatar.textContent = "";
-                        avatar.style.backgroundImage = "none";
-                        avatar.src = user.profilePic;
-                    };
-                    image.onerror = () => {
-                        // Keep the initials when the image path is unavailable.
-                    };
-                    image.src = user.profilePic;
-                    avatar.replaceWith(avatar.cloneNode(true));
-
-                    // Restore the avatar element and its initials.
-                    const restored = document.getElementById("profileAvatar");
-                    restored.textContent = initials || "U";
-                    image.onload = () => {
-                        restored.textContent = "";
-                        restored.style.backgroundImage = "none";
-                        restored.style.backgroundColor = "transparent";
-                        restored.style.padding = "0";
-                        restored.src = user.profilePic;
-                    };
-                    image.onerror = () => {
-                        restored.removeAttribute("src");
-                        restored.textContent = initials || "U";
-                    };
-                }
+                    .toUpperCase() || "U";
             }
 
-            try {
-                const response = await fetch(
-                    "http://localhost:5000/api/users/profile",
-                    {
-                        method: "GET",
-                        headers: {
-                            "Authorization": "Bearer " + token,
-                            "Content-Type": "application/json"
-                        }
-                    }
-                );
+            function displayAvatar(name, imagePath) {
+                initialsBox.textContent = getInitials(name);
 
-                const data = await response.json();
-
-                if (response.status === 401 || response.status === 403) {
-                    logout();
+                if (!imagePath) {
+                    avatar.hidden = true;
+                    initialsBox.hidden = false;
+                    avatar.removeAttribute("src");
                     return;
                 }
 
-                if (!response.ok) {
-                    throw new Error(data.message || "Unable to load profile.");
+                // Only allow local relative paths or HTTP(S) image URLs.
+                try {
+                    const parsed = new URL(imagePath, window.location.href);
+
+                    if (!["http:", "https:"].includes(parsed.protocol)) {
+                        throw new Error("Unsupported image URL");
+                    }
+
+                    avatar.onload = () => {
+                        avatar.hidden = false;
+                        initialsBox.hidden = true;
+                    };
+
+                    avatar.onerror = () => {
+                        avatar.hidden = true;
+                        initialsBox.hidden = false;
+                    };
+
+                    avatar.src = parsed.href;
+                } catch {
+                    avatar.hidden = true;
+                    initialsBox.hidden = false;
+                }
+            }
+
+            function displayProfile(user) {
+                currentUser = user;
+
+                $("profileName").textContent = user.name || "UrbanEthos User";
+                $("profileEmail").textContent = user.email || "Email not provided";
+                $("profileRole").textContent = user.role || "user";
+
+                $("editName").value = user.name || "";
+                $("editEmail").value = user.email || "";
+                $("editPhone").value = user.phone || "";
+
+                displayAvatar(user.name, user.profilePic || user.profile_image);
+
+                localStorage.setItem("user", JSON.stringify(user));
+            }
+
+            function setEditing(enabled) {
+                ["editName", "editEmail", "editPhone"].forEach(id => {
+                    $(id).disabled = !enabled;
+                });
+
+                editButton.classList.toggle("profile-hidden", enabled);
+                saveButton.classList.toggle("profile-hidden", !enabled);
+                cancelButton.classList.toggle("profile-hidden", !enabled);
+            }
+
+            function snapshotForm() {
+                return {
+                    name: $("editName").value,
+                    email: $("editEmail").value,
+                    phone: $("editPhone").value
+                };
+            }
+
+            function restoreForm(values) {
+                $("editName").value = values.name || "";
+                $("editEmail").value = values.email || "";
+                $("editPhone").value = values.phone || "";
+            }
+
+            async function loadProfile() {
+                try {
+                    const response = await fetch(API_BASE + "/profile", {
+                        method: "GET",
+                        headers: {
+                            "Authorization": "Bearer " + token
+                        }
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (response.status === 401 || response.status === 403) {
+                        logout();
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(data.message || "Could not load your profile.");
+                    }
+
+                    displayProfile(data.user || data);
+                    setEditing(false);
+
+                } catch (error) {
+                    console.error("PROFILE LOAD ERROR:", error);
+                    showMessage(
+                        error.message || "Unable to load your profile. Check the backend connection.",
+                        "error"
+                    );
+                    $("profileName").textContent = "Profile unavailable";
+                }
+            }
+
+            editButton.addEventListener("click", () => {
+                originalValues = snapshotForm();
+                setEditing(true);
+                showMessage("You can now edit your personal information.", "info");
+                $("editName").focus();
+            });
+
+            cancelButton.addEventListener("click", () => {
+                if (originalValues) {
+                    restoreForm(originalValues);
                 }
 
-                const user = data.user || data;
+                setEditing(false);
+                showMessage("Your unsaved changes were discarded.", "info");
+            });
 
-                displayProfile(user);
-                localStorage.setItem("user", JSON.stringify(user));
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
 
-            } catch (error) {
-                console.error("PROFILE ERROR:", error);
-                message.textContent =
-                    "Could not load the latest profile. Please check that the backend is running.";
+                if (!form.reportValidity()) {
+                    return;
+                }
+
+                const updated = snapshotForm();
+
+                if (!updated.name.trim() || !updated.email.trim()) {
+                    showMessage("Name and email are required.", "error");
+                    return;
+                }
+
+                saveButton.disabled = true;
+                saveButton.textContent = "Saving...";
+
+                try {
+                    const response = await fetch(API_BASE + "/profile", {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token
+                        },
+                        body: JSON.stringify({
+                            name: updated.name.trim(),
+                            email: updated.email.trim(),
+                            phone: updated.phone.trim()
+                        })
+                    });
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (response.status === 401 || response.status === 403) {
+                        logout();
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(data.message || "Could not save your profile.");
+                    }
+
+                    // Use the returned user if available; otherwise merge saved fields.
+                    const savedUser = data.user
+                        ? data.user
+                        : { ...currentUser, ...updated };
+
+                    displayProfile(savedUser);
+                    setEditing(false);
+                    showMessage("Your profile was updated successfully.", "success");
+
+                } catch (error) {
+                    console.error("PROFILE UPDATE ERROR:", error);
+                    showMessage(error.message || "Unable to save your changes.", "error");
+                } finally {
+                    saveButton.disabled = false;
+                    saveButton.textContent = "Save Changes";
+                }
+            });
+
+            avatarInput.addEventListener("change", () => {
+                const file = avatarInput.files && avatarInput.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+                if (!allowedTypes.includes(file.type)) {
+                    showMessage("Choose a JPG, PNG, or WebP image.", "error");
+                    avatarInput.value = "";
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage("Your image must be smaller than 5 MB.", "error");
+                    avatarInput.value = "";
+                    return;
+                }
+
+                selectedAvatarFile = file;
+
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                }
+
+                previewUrl = URL.createObjectURL(file);
+
+                avatar.onload = () => {
+                    avatar.hidden = false;
+                    initialsBox.hidden = true;
+                };
+
+                avatar.onerror = () => {
+                    avatar.hidden = true;
+                    initialsBox.hidden = false;
+                };
+
+                avatar.src = previewUrl;
+
+                showMessage(
+                    "Picture preview ready. Permanent upload will be connected to the backend next.",
+                    "info"
+                );
+            });
+
+            
+            const passwordForm = $("changePasswordForm");
+            const passwordMessage = $("passwordMessage");
+            const changePasswordBtn = $("changePasswordBtn");
+
+            function showPasswordMessage(text, type) {
+                passwordMessage.textContent = text;
+                passwordMessage.className = "profile-message " + type;
             }
+
+            passwordForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const currentPassword = $("currentPassword").value;
+                const newPassword = $("newPassword").value;
+                const confirmPassword = $("confirmPassword").value;
+
+                if (newPassword.length < 8 || newPassword.length > 72) {
+                    showPasswordMessage(
+                        "Your new password must be between 8 and 72 characters.",
+                        "error"
+                    );
+                    return;
+                }
+
+                if (newPassword === currentPassword) {
+                    showPasswordMessage(
+                        "Your new password must be different from your current password.",
+                        "error"
+                    );
+                    return;
+                }
+
+                if (newPassword !== confirmPassword) {
+                    showPasswordMessage(
+                        "The new passwords do not match.",
+                        "error"
+                    );
+                    return;
+                }
+
+                changePasswordBtn.disabled = true;
+                changePasswordBtn.textContent = "Updating...";
+
+                try {
+                    const response = await fetch(
+                        "http://localhost:5000/api/users/change-password",
+                        {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                                "Authorization": "Bearer " + token
+                            },
+                            body: JSON.stringify({
+                                currentPassword,
+                                newPassword
+                            })
+                        }
+                    );
+
+                    const data = await response.json().catch(() => ({}));
+
+                    if (response.status === 401 || response.status === 403) {
+                        logout();
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(
+                            data.message || "Unable to change your password."
+                        );
+                    }
+
+                    passwordForm.reset();
+
+                    showPasswordMessage(
+                        "Password changed successfully!",
+                        "success"
+                    );
+
+                } catch (error) {
+                    console.error("PASSWORD CHANGE ERROR:", error);
+
+                    showPasswordMessage(
+                        error.message || "Unable to connect to the backend.",
+                        "error"
+                    );
+
+                } finally {
+                    changePasswordBtn.disabled = false;
+                    changePasswordBtn.textContent = "Update Password";
+                }
+            });
+            window.addEventListener("beforeunload", () => {
+                if (previewUrl) {
+                    URL.revokeObjectURL(previewUrl);
+                }
+            });
+
+            loadProfile();
         });
     </script>
-<script src="auth.js"></script>
+
+    <script src="auth.js"></script>
+
 </body>
 
 </html>
