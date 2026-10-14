@@ -136,9 +136,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
+
                 const response = await fetch(
-                    `${ API_BASE_URL } /api/users / register`,
+                    `${API_BASE_URL}/api/users/register`,
                     {
+
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -325,9 +327,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             try {
+
                 const response = await fetch(
-                    `${ API_BASE_URL } /api/users / login`,
+                    `${API_BASE_URL}/api/users/login`,
                     {
+
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
@@ -451,11 +455,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!navAuth) return;
 
+
     const cartMarkup = `
-    < a href = "cart.html" class="cart-btn" >
-            🛒 Cart < span id = "cart-count" > 0</span >
-        </a >
-    `;
+    <a href="cart.html" class="cart-btn">
+        🛒 Cart <span id="cart-count">0</span>
+    </a>
+`;
 
     const token = localStorage.getItem("token");
 
@@ -570,9 +575,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     ========================= */
 
     try {
+
         const response = await fetch(
-            `${ API_BASE_URL } /api/users / profile`,
+            `${API_BASE_URL}/api/users/profile`,
             {
+
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${ token } `,
