@@ -477,7 +477,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const API_BASE = "http://localhost:5000/api/users";
+            const API_BASE = "https://urbanethos-api.onrender.com/api/users";
             const token = localStorage.getItem("token");
 
             const $ = (id) => document.getElementById(id);
@@ -808,7 +808,7 @@
 
                 try {
                     const response = await fetch(
-                        "http://localhost:5000/api/users/change-password",
+                        "https://urbanethos-api.onrender.com/api/users/change-password",
                         {
                             method: "PUT",
                             headers: {
