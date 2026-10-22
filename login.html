@@ -1,125 +1,538 @@
+from pathlib import Path
+
+html = r'''
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4b2087">
+    <title>Sign In | UrbanEthos</title>
 
-    <meta name="description"
-        content="Sign in to your UrbanEthos account to explore personalized gifts and handcrafted creations.">
+    <style>
+        :root {
+            --purple: #4b2087;
+            --purple-dark: #351360;
+            --text: #28134f;
+            --muted: #8583ad;
+            --border: #ded5f7;
+            --white: #ffffff;
+        }
 
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    <title>Login | UrbanEthos</title>
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            background:
+                radial-gradient(circle at 10% 10%, #ffffff 0, transparent 35%),
+                linear-gradient(135deg, #f8f5ff, #eee7ff);
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: var(--text);
+        }
 
-    <link rel="stylesheet" href="auth.css">
+        a {
+            color: var(--purple);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .login-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            width: 100%;
+            max-width: 1120px;
+            min-height: 650px;
+            background: var(--white);
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: 0 25px 75px rgba(64, 30, 115, 0.13);
+        }
+
+        .brand-panel {
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 55px 58px;
+            color: var(--white);
+            background: linear-gradient(145deg, #542796 0%, #461b80 55%, #35135e 100%);
+        }
+
+        .brand-panel::before,
+        .brand-panel::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.045);
+            pointer-events: none;
+        }
+
+        .brand-panel::before {
+            top: -150px;
+            left: -100px;
+        }
+
+        .brand-panel::after {
+            right: -150px;
+            bottom: -170px;
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-wrap {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #fff;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 24px rgba(20, 8, 40, 0.18);
+        }
+
+        .logo-wrap img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .welcome-badge {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 9px 17px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .brand-panel h1 {
+            margin-bottom: 18px;
+            font-size: clamp(29px, 3vw, 43px);
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .brand-panel p {
+            max-width: 420px;
+            color: #eee6ff;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+
+        .form-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 65px;
+            background: #fff;
+        }
+
+        .form-content {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .eyebrow {
+            margin-bottom: 12px;
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 4px;
+        }
+
+        .form-content h2 {
+            margin-bottom: 9px;
+            font-size: clamp(31px, 3vw, 43px);
+            line-height: 1.15;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            margin-bottom: 40px;
+            color: var(--muted);
+            font-size: 17px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .label-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .forgot-link {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .input-wrap input {
+            width: 100%;
+            height: 56px;
+            padding: 0 17px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            background: #fff;
+            color: var(--text);
+            font: inherit;
+            font-size: 15px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input-wrap input::placeholder {
+            color: #9996b7;
+        }
+
+        .input-wrap input:focus {
+            border-color: var(--purple);
+            box-shadow: 0 0 0 4px rgba(75, 32, 135, 0.09);
+        }
+
+        .password-input {
+            padding-right: 75px !important;
+        }
+
+        .show-password {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            padding: 5px;
+            border: 0;
+            background: transparent;
+            color: var(--purple);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin: 2px 0 28px;
+            color: #554574;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .remember-row input {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--purple);
+            cursor: pointer;
+        }
+
+        .sign-in-btn {
+            width: 100%;
+            min-height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 13px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(100deg, #542494, #472080);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(75, 32, 135, 0.13);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .sign-in-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(75, 32, 135, 0.22);
+        }
+
+        .sign-in-btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+            transform: none;
+        }
+
+        .auth-message {
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .auth-message.error {
+            color: #b42318;
+        }
+
+        .auth-message.success {
+            color: #167647;
+        }
+
+        .account-link {
+            margin-top: 36px;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .account-link a {
+            margin-left: 4px;
+            font-weight: 800;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .login-card {
+                max-width: 650px;
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                padding: 35px;
+                text-align: center;
+            }
+
+            .logo-wrap {
+                width: 105px;
+                height: 105px;
+                margin-bottom: 20px;
+            }
+
+            .brand-panel h1 {
+                font-size: 30px;
+            }
+
+            .brand-panel p {
+                margin: 0 auto;
+            }
+
+            .form-panel {
+                padding: 45px 35px;
+            }
+
+            .form-content {
+                max-width: 480px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 14px;
+                align-items: flex-start;
+            }
+
+            .login-card {
+                border-radius: 20px;
+                min-height: auto;
+            }
+
+            .brand-panel {
+                padding: 25px 22px 28px;
+            }
+
+            .logo-wrap {
+                width: 86px;
+                height: 86px;
+                margin-bottom: 15px;
+            }
+
+            .welcome-badge {
+                margin-bottom: 12px;
+                padding: 7px 13px;
+                font-size: 10px;
+            }
+
+            .brand-panel h1 {
+                margin-bottom: 10px;
+                font-size: 25px;
+                letter-spacing: -0.5px;
+            }
+
+            .brand-panel p {
+                font-size: 13px;
+                line-height: 1.7;
+            }
+
+            .form-panel {
+                padding: 34px 23px 30px;
+            }
+
+            .eyebrow {
+                font-size: 11px;
+                letter-spacing: 3px;
+            }
+
+            .form-content h2 {
+                font-size: 32px;
+            }
+
+            .subtitle {
+                margin-bottom: 30px;
+                font-size: 15px;
+            }
+
+            .form-group {
+                margin-bottom: 21px;
+            }
+
+            .input-wrap input {
+                height: 52px;
+                font-size: 14px;
+            }
+
+            .sign-in-btn {
+                min-height: 53px;
+            }
+
+            .account-link {
+                margin-top: 27px;
+                line-height: 1.8;
+            }
+
+            .back-link {
+                margin-top: 20px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
 </head>
 
-<body class="auth-page">
+<body>
+    <main class="login-card">
+        <section class="brand-panel">
+            <div class="brand-content">
+                <div class="logo-wrap">
+                    <!-- Update this path if your logo is stored elsewhere. -->
+                    <img src="image/logo1.jpg" alt="UrbanEthos Crafts and Designs" onerror="this.style.display='none';">
+                </div>
 
-    <main class="auth-container">
-
-        <section class="auth-showcase">
-            <div class="showcase-content">
-
-                <a href="index.html" class="auth-logo">
-                    <img src="image/logo1.jpg" alt="UrbanEthos logo">
-                </a>
-
-                <span class="showcase-tag">
-                    Welcome Back
-                </span>
-
-                <h1>
-                    Crafted With Care,<br>
-                    Designed For You.
-                </h1>
-
+                <span class="welcome-badge">WELCOME BACK</span>
+                <h1>Crafted With Care,<br>Designed For You.</h1>
                 <p>
                     Sign in to your UrbanEthos account and continue
-                    discovering personalized gifts and handcrafted
-                    creations.
+                    discovering personalized gifts and handcrafted creations.
                 </p>
-
             </div>
         </section>
 
-        <section class="auth-box" aria-labelledby="loginHeading">
+        <section class="form-panel">
+            <div class="form-content">
+                <div class="eyebrow">URBANETHOS</div>
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Sign in to your account</p>
 
-            <header class="auth-header">
-                <span class="small-title">URBANETHOS</span>
-
-                <h2 id="loginHeading">Welcome Back</h2>
-
-                <p>Sign in to your account</p>
-            </header>
-
-            <form id="loginForm" class="auth-form">
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-
-                    <div class="input-wrapper">
-                        <input type="email" id="email" name="email" placeholder="Enter your email"
-                            autocomplete="username" maxlength="254" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="password-label">
-                        <label for="password">Password</label>
-
-                        <a href="forgot-password.html">
-                            Forgot Password?
-                        </a>
+                <form id="loginForm" autocomplete="on">
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="email">Email Address</label>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="email" id="email" name="email" placeholder="Enter your email"
+                                autocomplete="username" required>
+                        </div>
                     </div>
 
-                    <div class="input-wrapper">
-                        <input type="password" id="password" name="password" placeholder="Enter your password"
-                            autocomplete="current-password" required>
-
-                        <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password"
-                            aria-controls="password">
-                            Show
-                        </button>
+                    <div class="form-group">
+                        <div class="label-row">
+                            <label for="password">Password</label>
+                            <a class="forgot-link" href="forgot-password.html">
+                                Forgot Password?
+                            </a>
+                        </div>
+                        <div class="input-wrap">
+                            <input type="password" id="password" name="password" class="password-input"
+                                placeholder="Enter your password" autocomplete="current-password" required>
+                            <button class="show-password" type="button" id="togglePassword"
+                                aria-label="Show password">Show</button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="remember-row">
-                    <label class="remember">
-                        <input type="checkbox" id="rememberMe">
+                    <label class="remember-row" for="rememberMe">
+                        <input type="checkbox" id="rememberMe" name="rememberMe">
                         <span>Remember me</span>
                     </label>
-                </div>
 
-                <button type="submit" class="auth-button">
-                    <span>Sign In</span>
-                    <span class="button-arrow" aria-hidden="true">
-                        →
-                    </span>
-                </button>
+                    <button class="sign-in-btn auth-button" type="submit" id="loginButton">
+                        <span>Sign In</span>
+                        <span aria-hidden="true">→</span>
+                    </button>
 
-                <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+                    <!-- auth.js expects this exact ID -->
+                    <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+                </form>
 
-            </form>
+                <p class="account-link">
+                    Don't have an account?
+                    <a href="register.html" id="createAccountLink">Create Account</a>
+                </p>
 
-            <div class="register-link">
-                <p>Don't have an account?</p>
-                <a href="register.html" id="createAccountLink">
-                    Create Account
-                </a>
+                <a class="back-link" href="index.html">← Back to UrbanEthos</a>
             </div>
-
-            <a href="index.html" class="back-home">
-                ← Back to UrbanEthos
-            </a>
-
         </section>
-
     </main>
 
+    <!-- Existing script handles login, API calls, and password visibility. -->
     <script src="auth.js" defer></script>
-
 </body>
 
 </html>
+'''
+
+path = Path("/mnt/data/login-redesign.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created {path} ({len(html.splitlines())} lines)")
