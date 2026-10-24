@@ -385,6 +385,46 @@
                 transition: none !important;
             }
         }
+        
+/* Profile page: keep the UrbanEthos header logo compact */
+.header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.header .logo a {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.header .logo img {
+    display: block;
+    width: 48px;
+    height: 48px;
+    max-width: 48px;
+    object-fit: contain;
+}
+
+.header .logo span {
+    font-size: 21px;
+    line-height: 1.2;
+}
+
+@media (max-width: 600px) {
+    .header .logo img {
+        width: 38px;
+        height: 38px;
+        max-width: 38px;
+    }
+
+    .header .logo span {
+        font-size: 18px;
+    }
+}
+
     </style>
 </head>
 
@@ -393,7 +433,7 @@
     <header class="header">
         <div class="logo">
             <a href="index.html">
-                <img src="image/logo1.jpg" alt="UrbanEthos Logo">
+                <img src="image/logo.jpg" alt="UrbanEthos Logo">
             </a>
             <span>UrbanEthos</span>
         </div>
