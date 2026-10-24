@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +20,9 @@
             color: var(--profile-ink);
         }
 
-        .ue-profile * {
+        .ue-profile *,
+        .ue-profile *::before,
+        .ue-profile *::after {
             box-sizing: border-box;
         }
 
@@ -161,6 +164,7 @@
         .profile-form {
             display: grid;
             gap: 18px;
+            min-width: 0;
         }
 
         .profile-form label {
@@ -171,7 +175,9 @@
         }
 
         .profile-form input {
+            display: block;
             width: 100%;
+            max-width: 100%;
             min-width: 0;
             padding: 13px 14px;
             border: 1px solid #ded8d2;
@@ -244,6 +250,7 @@
         .profile-message {
             display: none;
             padding: 12px 14px;
+            margin-bottom: 16px;
             border-radius: 8px;
             font-size: 14px;
             line-height: 1.5;
@@ -279,32 +286,94 @@
             font-size: 13px;
         }
 
+        /* Tablet and mobile layout */
         @media (max-width: 760px) {
             .ue-profile {
-                margin-top: 28px;
+                width: 100%;
+                max-width: 100%;
+                margin: 28px auto 0;
                 padding: 0 15px 35px;
             }
 
+            .profile-heading {
+                margin-bottom: 20px;
+            }
+
+            .profile-heading h1 {
+                font-size: clamp(26px, 6vw, 32px);
+                line-height: 1.25;
+                overflow-wrap: anywhere;
+            }
+
+            .profile-heading p {
+                font-size: 14px;
+            }
+
             .profile-layout {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 18px;
             }
 
             .ue-profile .profile-panel {
+                width: 100%;
+                min-width: 0;
                 padding: 22px;
+                border-radius: 14px;
             }
 
             .profile-summary {
-                padding-bottom: 25px !important;
+                padding-bottom: 25px;
+            }
+
+            .profile-content {
+                min-width: 0;
+            }
+
+            .profile-section-title {
+                font-size: 20px;
+                line-height: 1.35;
+            }
+
+            .profile-subtitle {
+                overflow-wrap: anywhere;
+            }
+
+            .profile-form input {
+                font-size: 16px;
+            }
+
+            .profile-buttons {
+                gap: 10px;
+            }
+
+            .profile-buttons .profile-btn {
+                min-width: 0;
+                max-width: 100%;
             }
         }
 
         @media (max-width: 420px) {
+            .ue-profile {
+                padding-right: 12px;
+                padding-left: 12px;
+            }
+
+            .ue-profile .profile-panel {
+                padding: 17px;
+            }
+
             .profile-buttons {
                 flex-direction: column;
+                align-items: stretch;
             }
 
             .profile-buttons .profile-btn {
                 width: 100%;
+            }
+
+            .profile-avatar-wrap {
+                width: 100px;
+                height: 100px;
             }
         }
 
@@ -355,7 +424,8 @@
 
                     <label class="avatar-edit" for="avatarInput" title="Choose profile picture">
                         ✎
-                        <input id="avatarInput" type="file" accept="image/jpeg,image/png,image/webp">
+                        <input id="avatarInput" type="file" accept="image/jpeg,image/png,image/webp"
+                            aria-label="Choose profile picture">
                     </label>
                 </div>
 
@@ -369,7 +439,7 @@
 
                 <hr class="profile-divider">
 
-                <nav class="profile-side-links">
+                <nav class="profile-side-links" aria-label="Profile navigation">
                     <a href="#personalDetails">👤 Personal information</a>
                     <a href="#accountSecurity">🔒 Account security</a>
                     <a href="index.html">← Back to home</a>
@@ -385,6 +455,7 @@
 
                 <section class="profile-panel" id="personalDetails">
                     <h2 class="profile-section-title">Personal Information</h2>
+
                     <p class="profile-subtitle">
                         Update the details associated with your account.
                     </p>
@@ -426,44 +497,46 @@
                                 Cancel
                             </button>
                         </div>
+
                     </form>
                 </section>
 
-                <section class="profile-panel" id="accountSecurity" style="margin-top:24px;">
-                
+                <section class="profile-panel" id="accountSecurity" style="margin-top: 24px;">
+
                     <h2 class="profile-section-title">Change Password</h2>
-                
+
                     <p class="profile-subtitle">
                         Choose a strong password to keep your account secure.
                     </p>
-                
+
                     <div id="passwordMessage" class="profile-message" role="status" aria-live="polite"></div>
-                
+
                     <form id="changePasswordForm" class="profile-form">
-                
+
                         <div>
                             <label for="currentPassword">Current Password</label>
-                            <input type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" required>
+                            <input type="password" id="currentPassword" name="currentPassword"
+                                autocomplete="current-password" required>
                         </div>
-                
+
                         <div>
                             <label for="newPassword">New Password</label>
-                            <input type="password" id="newPassword" name="newPassword" autocomplete="new-password" minlength="8"
-                                maxlength="72" required>
+                            <input type="password" id="newPassword" name="newPassword" autocomplete="new-password"
+                                minlength="8" maxlength="72" required>
                         </div>
-                
+
                         <div>
                             <label for="confirmPassword">Confirm New Password</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" minlength="8"
-                                maxlength="72" required>
+                            <input type="password" id="confirmPassword" name="confirmPassword"
+                                autocomplete="new-password" minlength="8" maxlength="72" required>
                         </div>
-                
+
                         <div class="profile-buttons">
                             <button type="submit" id="changePasswordBtn" class="profile-btn profile-btn-primary">
                                 Update Password
                             </button>
                         </div>
-                
+
                     </form>
                 </section>
 
@@ -477,7 +550,9 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const API_BASE = "https://urbanethos-api.onrender.com/api/users";
+            const API_BASE =
+                "https://urbanethos-api.onrender.com/api/users";
+
             const token = localStorage.getItem("token");
 
             const $ = (id) => document.getElementById(id);
@@ -492,9 +567,12 @@
             const saveButton = $("saveProfileBtn");
             const cancelButton = $("cancelEditBtn");
 
+            const passwordForm = $("changePasswordForm");
+            const passwordMessage = $("passwordMessage");
+            const changePasswordBtn = $("changePasswordBtn");
+
             let currentUser = null;
             let originalValues = null;
-            let selectedAvatarFile = null;
             let previewUrl = null;
 
             function showMessage(text, type = "info") {
@@ -502,10 +580,9 @@
                 message.className = "profile-message " + type;
             }
 
-            function showSecurityMessage(text) {
-                const box = $("passwordSetupMessage");
-                box.textContent = text;
-                box.className = "profile-message info";
+            function showPasswordMessage(text, type = "info") {
+                passwordMessage.textContent = text;
+                passwordMessage.className = "profile-message " + type;
             }
 
             function logout() {
@@ -541,9 +618,11 @@
                     return;
                 }
 
-                // Only allow local relative paths or HTTP(S) image URLs.
                 try {
-                    const parsed = new URL(imagePath, window.location.href);
+                    const parsed = new URL(
+                        imagePath,
+                        window.location.href
+                    );
 
                     if (!["http:", "https:"].includes(parsed.protocol)) {
                         throw new Error("Unsupported image URL");
@@ -560,6 +639,7 @@
                     };
 
                     avatar.src = parsed.href;
+
                 } catch {
                     avatar.hidden = true;
                     initialsBox.hidden = false;
@@ -569,15 +649,22 @@
             function displayProfile(user) {
                 currentUser = user;
 
-                $("profileName").textContent = user.name || "UrbanEthos User";
-                $("profileEmail").textContent = user.email || "Email not provided";
+                $("profileName").textContent =
+                    user.name || "UrbanEthos User";
+
+                $("profileEmail").textContent =
+                    user.email || "Email not provided";
+
                 $("profileRole").textContent = user.role || "user";
 
                 $("editName").value = user.name || "";
                 $("editEmail").value = user.email || "";
                 $("editPhone").value = user.phone || "";
 
-                displayAvatar(user.name, user.profilePic || user.profile_image);
+                displayAvatar(
+                    user.name,
+                    user.profilePic || user.profile_image
+                );
 
                 localStorage.setItem("user", JSON.stringify(user));
             }
@@ -587,9 +674,20 @@
                     $(id).disabled = !enabled;
                 });
 
-                editButton.classList.toggle("profile-hidden", enabled);
-                saveButton.classList.toggle("profile-hidden", !enabled);
-                cancelButton.classList.toggle("profile-hidden", !enabled);
+                editButton.classList.toggle(
+                    "profile-hidden",
+                    enabled
+                );
+
+                saveButton.classList.toggle(
+                    "profile-hidden",
+                    !enabled
+                );
+
+                cancelButton.classList.toggle(
+                    "profile-hidden",
+                    !enabled
+                );
             }
 
             function snapshotForm() {
@@ -617,13 +715,16 @@
 
                     const data = await response.json().catch(() => ({}));
 
-                    if (response.status === 401 || response.status === 403) {
+                    if (response.status === 401 ||
+                        response.status === 403) {
                         logout();
                         return;
                     }
 
                     if (!response.ok) {
-                        throw new Error(data.message || "Could not load your profile.");
+                        throw new Error(
+                            data.message || "Could not load your profile."
+                        );
                     }
 
                     displayProfile(data.user || data);
@@ -631,18 +732,27 @@
 
                 } catch (error) {
                     console.error("PROFILE LOAD ERROR:", error);
+
                     showMessage(
-                        error.message || "Unable to load your profile. Check the backend connection.",
+                        error.message ||
+                        "Unable to load your profile. Check the backend connection.",
                         "error"
                     );
+
                     $("profileName").textContent = "Profile unavailable";
                 }
             }
 
             editButton.addEventListener("click", () => {
                 originalValues = snapshotForm();
+
                 setEditing(true);
-                showMessage("You can now edit your personal information.", "info");
+
+                showMessage(
+                    "You can now edit your personal information.",
+                    "info"
+                );
+
                 $("editName").focus();
             });
 
@@ -652,7 +762,11 @@
                 }
 
                 setEditing(false);
-                showMessage("Your unsaved changes were discarded.", "info");
+
+                showMessage(
+                    "Your unsaved changes were discarded.",
+                    "info"
+                );
             });
 
             form.addEventListener("submit", async (event) => {
@@ -688,27 +802,43 @@
 
                     const data = await response.json().catch(() => ({}));
 
-                    if (response.status === 401 || response.status === 403) {
+                    if (response.status === 401 ||
+                        response.status === 403) {
                         logout();
                         return;
                     }
 
                     if (!response.ok) {
-                        throw new Error(data.message || "Could not save your profile.");
+                        throw new Error(
+                            data.message || "Could not save your profile."
+                        );
                     }
 
-                    // Use the returned user if available; otherwise merge saved fields.
                     const savedUser = data.user
                         ? data.user
-                        : { ...currentUser, ...updated };
+                        : {
+                            ...currentUser,
+                            name: updated.name.trim(),
+                            email: updated.email.trim(),
+                            phone: updated.phone.trim()
+                        };
 
                     displayProfile(savedUser);
                     setEditing(false);
-                    showMessage("Your profile was updated successfully.", "success");
+
+                    showMessage(
+                        "Your profile was updated successfully.",
+                        "success"
+                    );
 
                 } catch (error) {
                     console.error("PROFILE UPDATE ERROR:", error);
-                    showMessage(error.message || "Unable to save your changes.", "error");
+
+                    showMessage(
+                        error.message || "Unable to save your changes.",
+                        "error"
+                    );
+
                 } finally {
                     saveButton.disabled = false;
                     saveButton.textContent = "Save Changes";
@@ -716,27 +846,38 @@
             });
 
             avatarInput.addEventListener("change", () => {
-                const file = avatarInput.files && avatarInput.files[0];
+                const file = avatarInput.files &&
+                    avatarInput.files[0];
 
                 if (!file) {
                     return;
                 }
 
-                const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ];
 
                 if (!allowedTypes.includes(file.type)) {
-                    showMessage("Choose a JPG, PNG, or WebP image.", "error");
+                    showMessage(
+                        "Choose a JPG, PNG, or WebP image.",
+                        "error"
+                    );
+
                     avatarInput.value = "";
                     return;
                 }
 
                 if (file.size > 5 * 1024 * 1024) {
-                    showMessage("Your image must be smaller than 5 MB.", "error");
+                    showMessage(
+                        "Your image must be smaller than 5 MB.",
+                        "error"
+                    );
+
                     avatarInput.value = "";
                     return;
                 }
-
-                selectedAvatarFile = file;
 
                 if (previewUrl) {
                     URL.revokeObjectURL(previewUrl);
@@ -757,29 +898,29 @@
                 avatar.src = previewUrl;
 
                 showMessage(
-                    "Picture preview ready. Permanent upload will be connected to the backend next.",
+                    "Picture preview ready. This picture is only a preview and has not been uploaded permanently.",
                     "info"
                 );
             });
 
-            
-            const passwordForm = $("changePasswordForm");
-            const passwordMessage = $("passwordMessage");
-            const changePasswordBtn = $("changePasswordBtn");
-
-            function showPasswordMessage(text, type) {
-                passwordMessage.textContent = text;
-                passwordMessage.className = "profile-message " + type;
-            }
-
             passwordForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
-                const currentPassword = $("currentPassword").value;
-                const newPassword = $("newPassword").value;
-                const confirmPassword = $("confirmPassword").value;
+                if (!passwordForm.reportValidity()) {
+                    return;
+                }
 
-                if (newPassword.length < 8 || newPassword.length > 72) {
+                const currentPassword =
+                    $("currentPassword").value;
+
+                const newPassword =
+                    $("newPassword").value;
+
+                const confirmPassword =
+                    $("confirmPassword").value;
+
+                if (newPassword.length < 8 ||
+                    newPassword.length > 72) {
                     showPasswordMessage(
                         "Your new password must be between 8 and 72 characters.",
                         "error"
@@ -808,7 +949,7 @@
 
                 try {
                     const response = await fetch(
-                        "https://urbanethos-api.onrender.com/api/users/change-password",
+                        API_BASE + "/change-password",
                         {
                             method: "PUT",
                             headers: {
@@ -824,14 +965,16 @@
 
                     const data = await response.json().catch(() => ({}));
 
-                    if (response.status === 401 || response.status === 403) {
+                    if (response.status === 401 ||
+                        response.status === 403) {
                         logout();
                         return;
                     }
 
                     if (!response.ok) {
                         throw new Error(
-                            data.message || "Unable to change your password."
+                            data.message ||
+                            "Unable to change your password."
                         );
                     }
 
@@ -846,7 +989,8 @@
                     console.error("PASSWORD CHANGE ERROR:", error);
 
                     showPasswordMessage(
-                        error.message || "Unable to connect to the backend.",
+                        error.message ||
+                        "Unable to connect to the backend.",
                         "error"
                     );
 
@@ -855,6 +999,7 @@
                     changePasswordBtn.textContent = "Update Password";
                 }
             });
+
             window.addEventListener("beforeunload", () => {
                 if (previewUrl) {
                     URL.revokeObjectURL(previewUrl);
