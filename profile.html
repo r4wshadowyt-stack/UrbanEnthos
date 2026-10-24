@@ -481,6 +481,115 @@ body > .header .logo img {
     }
 }
 
+/* ===== UrbanEthos Customer Dashboard ===== */
+
+.profile-dashboard-section {
+    margin-top: 24px;
+    scroll-margin-top: 24px;
+}
+
+.profile-dashboard-section .profile-subtitle {
+    margin-bottom: 20px;
+}
+
+.profile-empty-state {
+    padding: 28px 18px;
+    text-align: center;
+    border: 1px dashed #d9c9e7;
+    border-radius: 14px;
+    background: #fbf8fd;
+}
+
+.profile-empty-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #eee4f5;
+    color: #7545a5;
+    font-size: 25px;
+}
+
+.profile-empty-state h3 {
+    margin: 0 0 8px;
+    color: #352641;
+    font-size: 18px;
+}
+
+.profile-empty-state p {
+    margin: 0 auto 17px;
+    max-width: 420px;
+    color: #777;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.profile-dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 17px;
+    border-radius: 9px;
+    background: #7545a5;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.profile-dashboard-link:hover {
+    background: #5b3a70;
+}
+
+.profile-status-note {
+    padding: 12px 14px;
+    border-radius: 9px;
+    background: #f5f0fa;
+    color: #62428a;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.profile-history-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.profile-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 14px;
+}
+
+.profile-history-table th,
+.profile-history-table td {
+    padding: 13px 10px;
+    border-bottom: 1px solid #eee8f3;
+}
+
+.profile-history-table th {
+    color: #62428a;
+    background: #faf7fc;
+}
+
+@media (max-width: 600px) {
+    .profile-dashboard-section {
+        margin-top: 18px;
+    }
+
+    .profile-empty-state {
+        padding: 24px 14px;
+    }
+
+    .profile-history-table {
+        min-width: 480px;
+    }
+}
+
     </style>
 </head>
 
@@ -537,9 +646,14 @@ body > .header .logo img {
 
                 <nav class="profile-side-links" aria-label="Profile navigation">
                     <a href="#personalDetails">👤 Personal information</a>
+                    <a href="#myOrders">📦 My orders</a>
+                    <a href="#paymentHistory">💳 Payment history</a>
+                    <a href="#myWishlist">♡ My wishlist</a>
+                    <a href="#paymentMethods">💰 Payment methods</a>
                     <a href="#accountSecurity">🔒 Account security</a>
                     <a href="index.html">← Back to home</a>
                 </nav>
+
 
                 <button id="profileLogout" class="profile-btn profile-btn-danger" type="button">
                     Logout
@@ -635,6 +749,108 @@ body > .header .logo img {
 
                     </form>
                 </section>
+<!-- MY ORDERS -->
+<section class="profile-panel profile-dashboard-section" id="myOrders">
+    <h2 class="profile-section-title">My Orders</h2>
+    <p class="profile-subtitle">
+        View the products you've purchased and track your orders.
+    </p>
+
+    <div class="profile-empty-state">
+        <div class="profile-empty-icon" aria-hidden="true">📦</div>
+        <h3>Your orders will appear here</h3>
+        <p>
+            Once your orders are connected to your UrbanEthos account,
+            you can view purchased products, order dates, totals and delivery status here.
+        </p>
+        <a class="profile-dashboard-link" href="products.html">
+            Explore Products
+        </a>
+    </div>
+
+    <p class="profile-status-note" style="margin-top: 16px;">
+        Order history will display real purchases after backend integration.
+    </p>
+</section>
+
+<!-- PAYMENT HISTORY -->
+<section class="profile-panel profile-dashboard-section" id="paymentHistory">
+    <h2 class="profile-section-title">Payment History</h2>
+    <p class="profile-subtitle">
+        Review payment transactions associated with your orders.
+    </p>
+
+    <div class="profile-empty-state">
+        <div class="profile-empty-icon" aria-hidden="true">₹</div>
+        <h3>No payment records to display</h3>
+        <p>
+            Your verified transactions, payment dates, amounts and statuses
+            will appear here once the payment system is connected.
+        </p>
+    </div>
+
+    <div class="profile-history-table-wrap" style="margin-top: 20px;">
+        <table class="profile-history-table">
+            <thead>
+                <tr>
+                    <th>Transaction</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="4" style="text-align: center; color: #777;">
+                        No transactions available yet.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- WISHLIST -->
+<section class="profile-panel profile-dashboard-section" id="myWishlist">
+    <h2 class="profile-section-title">My Wishlist</h2>
+    <p class="profile-subtitle">
+        Keep your favourite UrbanEthos products in one place.
+    </p>
+
+    <div class="profile-empty-state">
+        <div class="profile-empty-icon" aria-hidden="true">♡</div>
+        <h3>Your wishlist starts here</h3>
+        <p>
+            Products you save will appear here when wishlist functionality
+            is connected to your account.
+        </p>
+        <a class="profile-dashboard-link" href="products.html">
+            Discover Products
+        </a>
+    </div>
+</section>
+
+<!-- PAYMENT METHODS -->
+<section class="profile-panel profile-dashboard-section" id="paymentMethods">
+    <h2 class="profile-section-title">Payment Methods</h2>
+    <p class="profile-subtitle">
+        Manage payment options for future UrbanEthos purchases.
+    </p>
+
+    <div class="profile-empty-state">
+        <div class="profile-empty-icon" aria-hidden="true">💳</div>
+        <h3>Online payments are coming soon</h3>
+        <p>
+            We're preparing secure online payment options.
+            No card or bank details are collected on this page.
+        </p>
+    </div>
+
+    <p class="profile-status-note" style="margin-top: 16px;">
+        Online payments will be enabled only after a secure payment gateway
+        and server-side transaction verification are implemented.
+    </p>
+</section>
 
                 <p class="profile-footer">
                     UrbanEthos · Your style, your account.
