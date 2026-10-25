@@ -418,6 +418,10 @@
         CUSTOM DESIGN FORM
 =========================== -->
 
+<!-- ===========================
+        CUSTOM DESIGN FORM
+=========================== -->
+
 <section class="contact-section" id="contact">
 
     <div class="section-heading">
@@ -432,61 +436,49 @@
 
     </div>
 
-    <form class="contact-form">
+    <form class="contact-form" id="customDesignForm">
 
         <div class="input-group">
 
-            <input
-                type="text"
-                placeholder="Your Name"
-                required>
+            <input type="text" name="customerName" placeholder="Your Name" autocomplete="name" required>
 
-            <input
-                type="tel"
-                placeholder="Phone Number"
-                required>
+            <input type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" required>
 
         </div>
 
         <div class="input-group">
 
-            <input
-                type="email"
-                placeholder="Email Address">
+            <input type="email" name="email" placeholder="Email Address" autocomplete="email">
 
-            <input
-                type="text"
-                placeholder="Product Required">
+            <input type="text" name="productRequired" placeholder="Product Required" required>
 
         </div>
 
-        <textarea
-            rows="6"
-            placeholder="Describe your custom design..."
-            required></textarea>
+        <textarea name="description" rows="6" placeholder="Describe your custom design..." required></textarea>
 
-        <label class="upload-label">
+        <label class="upload-label" for="referenceImage">
 
             Upload Reference Image (Optional)
 
         </label>
 
-        <input
-            type="file"
-            accept="image/*">
+        <input type="file" id="referenceImage" name="referenceImage" accept="image/jpeg,image/png,image/webp">
 
-        <button
-            type="submit"
-            class="submit-btn">
+        <p class="upload-help">
+            Accepted formats: JPG, PNG and WebP. Maximum file size: 5 MB.
+        </p>
+
+        <button type="submit" class="submit-btn" id="customDesignSubmit">
 
             Send Request
 
         </button>
 
+        <p id="customDesignStatus" role="status" aria-live="polite"></p>
+
     </form>
 
 </section>
-
 <!-- ===========================
             FOOTER
 =========================== -->

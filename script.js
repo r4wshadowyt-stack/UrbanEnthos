@@ -300,7 +300,101 @@ document.addEventListener("DOMContentLoaded", () => {
         profileLink.append(profileImage, userName);
         userArea.replaceChildren(profileLink);
     }
+    // =====================================
+    // Custom Design Request Form
+    // =====================================
 
+    const customDesignForm = document.getElementById("customDesignForm");
+
+    if (customDesignForm) {
+        const submitButton = document.getElementById("customDesignSubmit");
+        const statusMessage = document.getElementById("customDesignStatus");
+        const referenceImage = document.getElementById("referenceImage");
+
+        const CUSTOM_REQUEST_API =
+            "https://urbanethos-api.onrender.com/api/custom-requests";
+
+        customDesignForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            if (!customDesignForm.reportValidity()) {
+                return;
+            }
+
+            const image = referenceImage?.files?.[0];
+
+            // Validate the optional image before uploading.
+            if (image) {
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/png",
+                    "image/webp"
+                ];
+
+                if (!allowedTypes.includes(image.type)) {
+                    statusMessage.textContent =
+                        "Please select a JPG, PNG, or WebP image.";
+
+                    return;
+                }
+
+                if (image.size > 5 * 1024 * 1024) {
+                    statusMessage.textContent =
+                        "Your image must be 5 MB or smaller.";
+
+                    return;
+                }
+            }
+
+            const originalButtonText = submitButton.textContent;
+
+            submitButton.disabled = true;
+            submitButton.textContent = "Sending Request...";
+            statusMessage.textContent = "Submitting your custom design request...";
+
+            try {
+                const formData = new FormData(customDesignForm);
+
+                const response = await fetch(CUSTOM_REQUEST_API, {
+                    method: "POST",
+                    body: formData
+                });
+
+                let result;
+
+                try {
+                    result = await response.json();
+                } catch {
+                    result = {};
+                }
+
+                if (!response.ok) {
+                    throw new Error(
+                        result.message ||
+                        result.error ||
+                        "We couldn't submit your request. Please try again."
+                    );
+                }
+
+                statusMessage.textContent =
+                    result.message ||
+                    "Your custom design request was submitted successfully!";
+
+                customDesignForm.reset();
+
+            } catch (error) {
+                console.error("Custom design request error:", error);
+
+                statusMessage.textContent =
+                    error.message ||
+                    "Unable to submit your request. Please try again later.";
+
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
+    }
     // Initial page setup
     updateCartCount();
     renderCart();

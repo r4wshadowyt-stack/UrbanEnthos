@@ -3,36 +3,29 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-
 const pool = require("./config/db");
+
 const userRoutes = require("./routes/userRoutes");
+const customRequestRoutes = require("./routes/customRequestRoutes");
 
 const app = express();
 
-// ========================================
-// MIDDLEWARE
-// ========================================
-
-// Configure FRONTEND_URL in production.
-// Multiple origins can be comma-separated.
 const frontendOrigins = process.env.FRONTEND_URL
     ? process.env.FRONTEND_URL
         .split(",")
-        .map(origin => origin.trim())
+        .map((origin) => origin.trim())
         .filter(Boolean)
     : null;
 
-app.use(cors(
-    frontendOrigins
-        ? { origin: frontendOrigins }
-        : {}
-));
+app.use(
+    cors(
+        frontendOrigins
+            ? { origin: frontendOrigins }
+            : {}
+    )
+);
 
 app.use(express.json({ limit: "1mb" }));
-
-// ========================================
-// ROUTES
-// ========================================
 
 app.get("/", (req, res) => {
     res.status(200).send("UrbanEthos Backend Running!");
@@ -45,18 +38,23 @@ app.get("/health", (req, res) => {
     });
 });
 
+// Existing login, registration, and profile routes
 app.use("/api/users", userRoutes);
 
-// ========================================
-// ERROR HANDLER
-// ========================================
+// New custom design request route
+app.use("/api/custom-requests", customRequestRoutes);
 
+// Central error handler
 app.use((err, req, res, next) => {
     if (res.headersSent) {
         return next(err);
     }
 
-    if (err instanceof SyntaxError && err.status === 400) {
+    if (
+        err instanceof SyntaxError &&
+        err.status === 400 &&
+        "body" in err
+    ) {
         return res.status(400).json({
             message: "Invalid JSON request body."
         });
@@ -69,29 +67,23 @@ app.use((err, req, res, next) => {
     });
 });
 
-// ========================================
-// START SERVER
-// ========================================
-
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`UrbanEthos API listening on port ${PORT}`);
 });
 
-// ========================================
-// GRACEFUL SHUTDOWN
-// ========================================
-
 async function shutdown() {
-    console.log("Shutting down UrbanEthos API...");
-
     server.close(async () => {
         try {
             await pool.end();
+            console.log("PostgreSQL connection pool closed.");
             process.exit(0);
         } catch (error) {
-            console.error("Database shutdown error:", error.message);
+            console.error(
+                "Error closing PostgreSQL pool:",
+                error.message
+            );
             process.exit(1);
         }
     });
