@@ -1,68 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UE | Checkout</title>
+
+    <title>UrbanEthos | Checkout</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .checkout-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 24px;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .checkout-card {
+            padding: 24px;
+            border: 1px solid #e4dce8;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .checkout-card h3 {
+            margin-top: 0;
+            color: #5B3A70;
+        }
+
+        #checkout-form input,
+        #checkout-form textarea,
+        #checkout-form select {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 12px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font: inherit;
+        }
+
+        #checkout-form textarea {
+            resize: vertical;
+        }
+
+        .checkout-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checkout-item img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .checkout-item-details {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .checkout-item-details p {
+            margin: 4px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .checkout-item-price {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .checkout-total {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .checkout-note {
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        #checkout-message {
+            margin: 16px 0;
+            padding: 12px;
+            border-radius: 6px;
+            line-height: 1.5;
+        }
+
+        #checkout-message:empty {
+            display: none;
+        }
+
+        #checkout-message.error {
+            color: #8b1e1e;
+            background: #fff0f0;
+        }
+
+        #checkout-message.success {
+            color: #176534;
+            background: #edfff2;
+        }
+
+        #place-order-button {
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        #place-order-button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 700px) {
+            .checkout-section {
+                margin: 20px auto;
+                padding: 14px;
+            }
+
+            .checkout-layout {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .checkout-card {
+                padding: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
+    <header>
+        <div class="logo">
+            <img src="image/logo1.jpg" alt="UrbanEthos Logo">
+            <span>UrbanEthos</span>
+        </div>
 
-    <div class="logo">
-        <img src="image/logo1.jpg" alt="UE Logo">
-        <span>UE</span>
-    </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="cart.html">Cart 🛒</a>
+        </nav>
+    </header>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="products.html">Products</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="cart.html">Cart 🛒</a>
-    </nav>
+    <main>
+        <section class="checkout-section">
+            <h2>Checkout</h2>
+            <p>Complete your details to place your UrbanEthos order.</p>
 
-</header>
+            <div class="checkout-layout">
 
-<section class="checkout-section">
+                <section class="checkout-card" aria-labelledby="order-summary-heading">
+                    <h3 id="order-summary-heading">Your Order</h3>
 
-    <h2>Checkout</h2>
+                    <div id="checkout-items" aria-live="polite">
+                        Loading cart...
+                    </div>
 
-    <form id="checkout-form">
+                    <div class="checkout-total">
+                        <span>Total</span>
+                        <span>₹<span id="checkout-total">0.00</span></span>
+                    </div>
 
-        <input type="text" placeholder="Full Name" required>
+                    <p class="checkout-note">
+                        Your final total is calculated by the server using the
+                        product catalogue. Delivery charges, if applicable, will
+                        need to be configured separately.
+                    </p>
 
-        <input type="email" placeholder="Email Address" required>
+                    <p>
+                        <a href="cart.html">← Return to cart</a>
+                    </p>
+                </section>
 
-        <input type="tel" placeholder="Phone Number" required>
+                <section class="checkout-card">
+                    <h3>Delivery Details</h3>
 
-        <textarea
-            placeholder="Delivery Address"
-            rows="5"
-            required></textarea>
+                    <div id="checkout-message" role="status" aria-live="polite"></div>
 
-        <select required>
+                    <form id="checkout-form">
+                        <label for="full-name">Full Name</label>
+                        <input id="full-name" name="fullName" type="text" maxlength="120" autocomplete="name" required>
 
-            <option value="">Select Payment Method</option>
+                        <label for="email">Email Address</label>
+                        <input id="email" name="email" type="email" maxlength="254" autocomplete="email" required>
 
-            <option>Cash on Delivery</option>
+                        <label for="phone">Phone Number</label>
+                        <input id="phone" name="phone" type="tel" maxlength="40" autocomplete="tel" required>
 
-            <option>UPI</option>
+                        <label for="delivery-address">Delivery Address</label>
+                        <textarea id="delivery-address" name="deliveryAddress" rows="5" maxlength="2000"
+                            autocomplete="street-address" required></textarea>
 
-            <option>Credit / Debit Card</option>
+                        <label for="payment-method">Payment Method</label>
+                        <select id="payment-method" name="paymentMethod" required>
+                            <option value="">Select Payment Method</option>
+                            <option value="Cash on Delivery">Cash on Delivery</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Credit / Debit Card">Credit / Debit Card</option>
+                        </select>
 
-        </select>
+                        <p class="checkout-note">
+                            Cash on Delivery is recorded as the selected payment
+                            method. UPI and card selections are recorded only;
+                            online payment processing is not yet connected.
+                        </p>
 
-        <button type="submit" class="buy-btn">
-            Place Order
-        </button>
+                        <button type="submit" id="place-order-button" class="buy-btn">
+                            Place Order
+                        </button>
+                    </form>
+                </section>
 
-    </form>
+            </div>
+        </section>
+    </main>
 
-</section>
+    <script src="script.js"></script>
 
-<script src="script.js"></script>
+    <script>
+        (() => {
+            "use strict";
+
+            const ORDER_API =
+                "https://urbanethos-api.onrender.com/api/orders";
+
+            const form = document.getElementById("checkout-form");
+            const itemsContainer = document.getElementById("checkout-items");
+            const totalElement = document.getElementById("checkout-total");
+            const messageElement = document.getElementById("checkout-message");
+            const submitButton = document.getElementById("place-order-button");
+
+            const PRODUCT_CATALOG = {
+                "1": { name: "Customized Bottle", price: 499 },
+                "2": { name: "Customized Calendar", price: 399 },
+                "3": { name: "Customized Gift Wrapping", price: 199 },
+                "4": { name: "Customized Photo Frame", price: 999 },
+                "5": { name: "Customized Keychain", price: 299 },
+                "6": { name: "Customized Gift Bag", price: 499 }
+            };
+
+            let isSubmitting = false;
+
+            function getCart() {
+                try {
+                    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+                    return Array.isArray(cart) ? cart : [];
+                } catch {
+                    return [];
+                }
+            }
+
+            function formatPrice(amount) {
+                return Number(amount).toLocaleString("en-IN", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            }
+
+            function showMessage(message, type) {
+                messageElement.textContent = message;
+                messageElement.className = type || "";
+            }
+
+            function safeProductImage(image) {
+                if (typeof image !== "string" || !image.trim()) {
+                    return "";
+                }
+
+                try {
+                    const parsed = new URL(image, window.location.href);
+
+                    if (
+                        parsed.protocol !== "https:" &&
+                        parsed.origin !== window.location.origin
+                    ) {
+                        return "";
+                    }
+
+                    if (
+                        parsed.protocol !== "https:" &&
+                        parsed.protocol !== "http:"
+                    ) {
+                        return "";
+                    }
+
+                    return parsed.href;
+                } catch {
+                    return "";
+                }
+            }
+
+            function renderOrderSummary() {
+                const cart = getCart();
+
+                itemsContainer.replaceChildren();
+
+                if (cart.length === 0) {
+                    const emptyMessage = document.createElement("p");
+                    emptyMessage.textContent = "Your cart is empty.";
+
+                    itemsContainer.appendChild(emptyMessage);
+                    totalElement.textContent = "0.00";
+                    submitButton.disabled = true;
+
+                    const existingLink = document.getElementById("shop-products-link");
+
+                    if (!existingLink) {
+                        const link = document.createElement("a");
+                        link.id = "shop-products-link";
+                        link.href = "products.html";
+                        link.textContent = "Browse products";
+
+                        itemsContainer.appendChild(link);
+                    }
+
+                    return;
+                }
+
+                let total = 0;
+                let validCart = true;
+
+                cart.forEach(item => {
+                    const product = PRODUCT_CATALOG[String(item.id)];
+                    const quantity = Number(item.quantity);
+
+                    if (
+                        !product ||
+                        !Number.isSafeInteger(quantity) ||
+                        quantity < 1 ||
+                        quantity > 99
+                    ) {
+                        validCart = false;
+                        return;
+                    }
+
+                    const lineTotal = product.price * quantity;
+                    total += lineTotal;
+
+                    const row = document.createElement("div");
+                    row.className = "checkout-item";
+
+                    const imageUrl = safeProductImage(item.customImageUrl) ||
+                        safeProductImage(item.image);
+
+                    if (imageUrl) {
+                        const image = document.createElement("img");
+                        image.src = imageUrl;
+                        image.alt = item.customImageUrl
+                            ? "Uploaded custom design"
+                            : product.name;
+                        image.loading = "lazy";
+                        row.appendChild(image);
+                    }
+
+                    const details = document.createElement("div");
+                    details.className = "checkout-item-details";
+
+                    const name = document.createElement("p");
+                    name.textContent = product.name;
+
+                    const quantityText = document.createElement("p");
+                    quantityText.textContent =
+                        "₹" + formatPrice(product.price) + " × " + quantity;
+
+                    if (item.customImageUrl) {
+                        const customLabel = document.createElement("p");
+                        customLabel.className = "checkout-note";
+                        customLabel.textContent = "Custom picture attached";
+                        details.appendChild(name);
+                        details.appendChild(quantityText);
+                        details.appendChild(customLabel);
+                    } else {
+                        details.appendChild(name);
+                        details.appendChild(quantityText);
+                    }
+
+                    const price = document.createElement("div");
+                    price.className = "checkout-item-price";
+                    price.textContent = "₹" + formatPrice(lineTotal);
+
+                    row.appendChild(details);
+                    row.appendChild(price);
+                    itemsContainer.appendChild(row);
+                });
+
+                totalElement.textContent = formatPrice(total);
+                submitButton.disabled = !validCart;
+
+                if (!validCart) {
+                    showMessage(
+                        "Your cart contains an invalid item. Please return to your cart and correct it before ordering.",
+                        "error"
+                    );
+                }
+            }
+
+            form.addEventListener("submit", async event => {
+                event.preventDefault();
+
+                if (isSubmitting) return;
+
+                const cart = getCart();
+
+                if (cart.length === 0) {
+                    showMessage(
+                        "Your cart is empty. Add a product before placing an order.",
+                        "error"
+                    );
+                    renderOrderSummary();
+                    return;
+                }
+
+                const items = [];
+
+                for (const item of cart) {
+                    const product = PRODUCT_CATALOG[String(item.id)];
+                    const quantity = Number(item.quantity);
+
+                    if (
+                        !product ||
+                        !Number.isSafeInteger(quantity) ||
+                        quantity < 1 ||
+                        quantity > 99
+                    ) {
+                        showMessage(
+                            "Your cart contains an invalid product or quantity. Please check your cart.",
+                            "error"
+                        );
+                        return;
+                    }
+
+                    items.push({
+                        id: String(item.id),
+                        quantity,
+                        customImageUrl: item.customImageUrl || null,
+                        customImagePublicId: item.customImagePublicId || null
+                    });
+                }
+
+                if (!form.reportValidity()) return;
+
+                const customer = {
+                    fullName: document.getElementById("full-name").value.trim(),
+                    email: document.getElementById("email").value.trim(),
+                    phone: document.getElementById("phone").value.trim(),
+                    deliveryAddress:
+                        document.getElementById("delivery-address").value.trim(),
+                    paymentMethod:
+                        document.getElementById("payment-method").value,
+                    items
+                };
+
+                isSubmitting = true;
+                submitButton.disabled = true;
+                submitButton.textContent = "Placing Order...";
+                showMessage("Submitting your order securely. Please wait.", "");
+
+                try {
+                    const response = await fetch(ORDER_API, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(customer)
+                    });
+
+                    let result;
+
+                    try {
+                        result = await response.json();
+                    } catch {
+                        result = {};
+                    }
+
+                    if (!response.ok) {
+                        throw new Error(
+                            result.message ||
+                            "We could not place your order. Your cart has been preserved."
+                        );
+                    }
+
+                    if (!result.order || result.order.id === undefined) {
+                        throw new Error(
+                            "The server response could not be verified. Check with the store before retrying."
+                        );
+                    }
+
+                    /*
+                     * Only clear the cart after the server confirms the saved order.
+                     * Verify the cart has not changed while the request was in flight.
+                     */
+                    const currentCart = localStorage.getItem("cart") || "[]";
+                    const submittedCart = JSON.stringify(cart);
+
+                    /*
+                     * Compare the current cart with the snapshot captured at submit time.
+                     * If it changed, do not erase the newer cart contents.
+                     */
+                    if (currentCart === submittedCart) {
+                        localStorage.removeItem("cart");
+                    }
+
+                    form.reset();
+                    renderOrderSummary();
+
+                    const orderNumber = result.order.id;
+
+                    showMessage(
+                        "Order placed successfully! Your order number is " +
+                        orderNumber + ". Total: ₹" +
+                        formatPrice(result.order.total) + ". " +
+                        (result.paymentNotice || "") +
+                        (currentCart !== submittedCart
+                            ? " Your cart changed during checkout, so its current contents were preserved."
+                            : ""),
+                        "success"
+                    );
+
+                    submitButton.textContent = "Order Placed";
+                } catch (error) {
+                    showMessage(
+                        error.message ||
+                        "Unable to contact the order service. Your cart has not been cleared. Please try again.",
+                        "error"
+                    );
+
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Place Order";
+                } finally {
+                    isSubmitting = false;
+
+                    if (submitButton.textContent !== "Order Placed") {
+                        submitButton.disabled = getCart().length === 0;
+                    }
+                }
+            });
+
+            renderOrderSummary();
+        })();
+    </script>
 
 </body>
+
 </html>
