@@ -1,6 +1,7 @@
 
 /* =========================================
    UrbanEthos - Shopping Cart & User Display
+   + Individual Product Image Customization
 ========================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -23,6 +24,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function saveCart(cart) {
         localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // Support existing cart items and new cart item identifiers
+    function getCartKey(item) {
+        return String(item.cartItemId || item.id || "");
+    }
+
+    function createCartItemId() {
+        if (
+            window.crypto &&
+            typeof window.crypto.randomUUID === "function"
+        ) {
+            return window.crypto.randomUUID();
+        }
+
+        return "cart-" + Date.now() + "-" +
+            Math.random().toString(36).slice(2);
     }
 
     // Allow local images and HTTPS image URLs only
@@ -53,6 +71,17 @@ document.addEventListener("DOMContentLoaded", () => {
             return "images/default-user.png";
         }
     }
+
+    const CART_IMAGE_API =
+        "https://urbanethos-api.onrender.com/api/cart-images";
+
+    const ALLOWED_IMAGE_TYPES = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
     // =====================================
     // Cart Count
@@ -98,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             const cart = getCart();
+
+            // Preserve the existing behavior: adding the same product
+            // increases its quantity instead of creating another row.
             const existingProduct = cart.find(
                 item => item.id === id
             );
@@ -108,10 +140,13 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 cart.push({
                     id,
+                    cartItemId: createCartItemId(),
                     name,
                     price,
                     image,
-                    quantity: 1
+                    quantity: 1,
+                    customImageUrl: "",
+                    customImagePublicId: ""
                 });
             }
 
@@ -139,8 +174,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (cart.length === 0) {
             const message = document.createElement("p");
             message.textContent = "Your cart is empty.";
+
             cartItems.appendChild(message);
             totalPrice.textContent = "0";
+
             updateCartCount();
             return;
         }
@@ -161,15 +198,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            const cartKey = getCartKey(item);
+
             total += price * quantity;
 
             const cartItem = document.createElement("div");
             cartItem.className = "cart-item";
+            cartItem.dataset.cartKey = cartKey;
 
+            // Original/sample product image
             const image = document.createElement("img");
             image.src = safeImageUrl(item.image);
             image.alt = String(item.name || "Product");
             image.loading = "lazy";
+            image.className = "cart-product-image";
 
             const info = document.createElement("div");
             info.className = "cart-info";
@@ -180,13 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
             const priceText = document.createElement("p");
             priceText.textContent = `₹${price.toFixed(2)}`;
 
+            // Quantity controls
             const controls = document.createElement("div");
             controls.className = "quantity-controls";
 
             const decrease = document.createElement("button");
             decrease.type = "button";
             decrease.className = "decrease";
-            decrease.dataset.id = item.id;
+            decrease.dataset.cartKey = cartKey;
             decrease.textContent = "−";
             decrease.setAttribute("aria-label", "Decrease quantity");
 
@@ -196,19 +239,111 @@ document.addEventListener("DOMContentLoaded", () => {
             const increase = document.createElement("button");
             increase.type = "button";
             increase.className = "increase";
-            increase.dataset.id = item.id;
+            increase.dataset.cartKey = cartKey;
             increase.textContent = "+";
             increase.setAttribute("aria-label", "Increase quantity");
 
             controls.append(decrease, quantityText, increase);
 
+            // Remove product from cart
             const remove = document.createElement("button");
             remove.type = "button";
             remove.className = "remove-item";
-            remove.dataset.id = item.id;
+            remove.dataset.cartKey = cartKey;
             remove.textContent = "Remove";
 
-            info.append(name, priceText, controls, remove);
+            // =====================================
+            // Personal Image Upload Section
+            // =====================================
+
+            const customization = document.createElement("div");
+            customization.className = "cart-image-customization";
+
+            const uploadTitle = document.createElement("h4");
+            uploadTitle.textContent = "Personalize Your Product";
+
+            const uploadHelp = document.createElement("p");
+            uploadHelp.textContent =
+                "Upload the picture you want us to use for this item.";
+
+            const uploadLabel = document.createElement("label");
+            const inputId = "custom-image-" +
+                cartKey.replace(/[^a-zA-Z0-9_-]/g, "");
+
+            uploadLabel.htmlFor = inputId;
+            uploadLabel.textContent = item.customImageUrl
+                ? "Replace Your Picture"
+                : "Upload Your Picture";
+
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.id = inputId;
+            fileInput.className = "custom-image-input";
+            fileInput.dataset.cartKey = cartKey;
+            fileInput.accept = ".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp";
+            fileInput.setAttribute(
+                "aria-label",
+                "Upload a personal picture for " + String(item.name || "this product")
+            );
+
+            const uploadStatus = document.createElement("p");
+            uploadStatus.className = "custom-image-status";
+            uploadStatus.dataset.cartKey = cartKey;
+            uploadStatus.setAttribute("role", "status");
+            uploadStatus.setAttribute("aria-live", "polite");
+
+            customization.append(
+                uploadTitle,
+                uploadHelp,
+                uploadLabel,
+                fileInput,
+                uploadStatus
+            );
+
+            // Show the uploaded picture separately from the sample image
+            if (
+                typeof item.customImageUrl === "string" &&
+                item.customImageUrl.trim()
+            ) {
+                const previewTitle = document.createElement("p");
+                previewTitle.textContent = "Your uploaded picture:";
+
+                const preview = document.createElement("img");
+                preview.src = safeImageUrl(item.customImageUrl);
+                preview.alt = "Your custom picture for " +
+                    String(item.name || "this product");
+                preview.className = "custom-image-preview";
+                preview.loading = "lazy";
+                preview.style.maxWidth = "180px";
+                preview.style.maxHeight = "180px";
+                preview.style.objectFit = "contain";
+                preview.style.display = "block";
+
+                preview.addEventListener("error", () => {
+                    preview.alt = "Unable to display your uploaded picture.";
+                });
+
+                const removePicture = document.createElement("button");
+                removePicture.type = "button";
+                removePicture.className = "remove-custom-image";
+                removePicture.dataset.cartKey = cartKey;
+                removePicture.textContent = "Remove Uploaded Picture";
+
+                customization.append(
+                    previewTitle,
+                    preview,
+                    removePicture
+                );
+            }
+
+            info.append(
+                name,
+                priceText,
+                controls,
+                remove,
+                customization
+            );
+
             cartItem.append(image, info);
 
             const divider = document.createElement("hr");
@@ -221,24 +356,189 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // =====================================
-    // Increase, Decrease & Remove Products
+    // Upload or Replace a Product's Picture
+    // =====================================
+
+    document.addEventListener("change", async event => {
+        const input = event.target;
+
+        if (
+            !input ||
+            !input.classList ||
+            !input.classList.contains("custom-image-input")
+        ) {
+            return;
+        }
+
+        const cartKey = input.dataset.cartKey;
+        const file = input.files && input.files[0];
+
+        if (!cartKey || !file) return;
+
+        const status = Array.from(
+            document.querySelectorAll(".custom-image-status")
+        ).find(element => element.dataset.cartKey === cartKey);
+
+        function showStatus(message) {
+            if (status) status.textContent = message;
+        }
+
+        // Validate the selected file
+        if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+            showStatus("Please select a JPG, PNG, or WebP image.");
+            input.value = "";
+            return;
+        }
+
+        if (file.size > MAX_IMAGE_SIZE) {
+            showStatus("Your picture must be 5 MB or smaller.");
+            input.value = "";
+            return;
+        }
+
+        const cart = getCart();
+        const item = cart.find(
+            product => getCartKey(product) === cartKey
+        );
+
+        if (!item) {
+            showStatus("This cart item could not be found. Please refresh.");
+            input.value = "";
+            return;
+        }
+
+        const originalLabel = input.previousElementSibling;
+        const originalLabelText = originalLabel
+            ? originalLabel.textContent
+            : "";
+
+        input.disabled = true;
+
+        if (originalLabel) {
+            originalLabel.textContent = "Uploading Picture...";
+        }
+
+        showStatus("Uploading your picture. Please wait...");
+
+        try {
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const response = await fetch(CART_IMAGE_API, {
+                method: "POST",
+                body: formData
+            });
+
+            let result = {};
+
+            try {
+                result = await response.json();
+            } catch {
+                result = {};
+            }
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message ||
+                    "Unable to upload your picture. Please try again."
+                );
+            }
+
+            if (
+                typeof result.imageUrl !== "string" ||
+                !result.imageUrl.startsWith("https://")
+            ) {
+                throw new Error(
+                    "The upload service did not return a valid image URL."
+                );
+            }
+
+            // Re-read storage in case the cart changed during upload.
+            const latestCart = getCart();
+            const latestItem = latestCart.find(
+                product => getCartKey(product) === cartKey
+            );
+
+            if (!latestItem) {
+                throw new Error(
+                    "This cart item was removed before the upload finished."
+                );
+            }
+
+            latestItem.customImageUrl = result.imageUrl;
+            latestItem.customImagePublicId =
+                typeof result.publicId === "string"
+                    ? result.publicId
+                    : "";
+
+            saveCart(latestCart);
+            renderCart();
+
+            const updatedStatus = Array.from(
+                document.querySelectorAll(".custom-image-status")
+            ).find(element => element.dataset.cartKey === cartKey);
+
+            if (updatedStatus) {
+                updatedStatus.textContent =
+                    "Your picture has been uploaded and saved to this cart item.";
+            }
+
+        } catch (error) {
+            console.error("Cart image upload error:", error);
+
+            showStatus(
+                error.message ||
+                "Unable to upload your picture. Please try again."
+            );
+
+            input.value = "";
+
+        } finally {
+            // The cart may have re-rendered after a successful upload.
+            // Only restore the original input if it is still on the page.
+            if (input.isConnected) {
+                input.disabled = false;
+
+                if (originalLabel) {
+                    originalLabel.textContent = originalLabelText;
+                }
+            }
+        }
+    });
+
+    // =====================================
+    // Increase, Decrease, Remove & Clear Picture
     // =====================================
 
     document.addEventListener("click", event => {
         const button = event.target.closest(
-            ".increase, .decrease, .remove-item"
+            ".increase, .decrease, .remove-item, .remove-custom-image"
         );
 
         if (!button) return;
 
-        const id = button.dataset.id;
-        if (!id) return;
+        const cartKey = button.dataset.cartKey;
+
+        if (!cartKey) return;
 
         let cart = getCart();
 
-        if (button.classList.contains("increase")) {
+        if (button.classList.contains("remove-custom-image")) {
             cart = cart.map(item => {
-                if (item.id === id) {
+                if (getCartKey(item) === cartKey) {
+                    return {
+                        ...item,
+                        customImageUrl: "",
+                        customImagePublicId: ""
+                    };
+                }
+
+                return item;
+            });
+
+        } else if (button.classList.contains("increase")) {
+            cart = cart.map(item => {
+                if (getCartKey(item) === cartKey) {
                     return {
                         ...item,
                         quantity: (Number(item.quantity) || 0) + 1
@@ -247,9 +547,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 return item;
             });
+
         } else if (button.classList.contains("decrease")) {
             cart = cart.map(item => {
-                if (item.id === id) {
+                if (getCartKey(item) === cartKey) {
                     return {
                         ...item,
                         quantity: Math.max(
@@ -261,8 +562,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 return item;
             });
+
         } else if (button.classList.contains("remove-item")) {
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(
+                item => getCartKey(item) !== cartKey
+            );
         }
 
         saveCart(cart);
@@ -300,8 +604,10 @@ document.addEventListener("DOMContentLoaded", () => {
         profileLink.append(profileImage, userName);
         userArea.replaceChildren(profileLink);
     }
+
     // =====================================
     // Custom Design Request Form
+    // Existing functionality preserved
     // =====================================
 
     const customDesignForm = document.getElementById("customDesignForm");
@@ -325,20 +631,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Validate the optional image before uploading.
             if (image) {
-                const allowedTypes = [
-                    "image/jpeg",
-                    "image/png",
-                    "image/webp"
-                ];
-
-                if (!allowedTypes.includes(image.type)) {
+                if (!ALLOWED_IMAGE_TYPES.includes(image.type)) {
                     statusMessage.textContent =
                         "Please select a JPG, PNG, or WebP image.";
 
                     return;
                 }
 
-                if (image.size > 5 * 1024 * 1024) {
+                if (image.size > MAX_IMAGE_SIZE) {
                     statusMessage.textContent =
                         "Your image must be 5 MB or smaller.";
 
@@ -350,7 +650,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             submitButton.disabled = true;
             submitButton.textContent = "Sending Request...";
-            statusMessage.textContent = "Submitting your custom design request...";
+            statusMessage.textContent =
+                "Submitting your custom design request...";
 
             try {
                 const formData = new FormData(customDesignForm);
@@ -395,7 +696,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    // Initial page setup
+
+    // =====================================
+    // Initial Page Setup
+    // =====================================
+
     updateCartCount();
     renderCart();
 

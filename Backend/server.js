@@ -7,6 +7,7 @@ const pool = require("./config/db");
 
 const userRoutes = require("./routes/userRoutes");
 const customRequestRoutes = require("./routes/customRequestRoutes");
+const cartImageRoutes = require("./routes/cartImageRoutes");
 
 const app = express();
 
@@ -43,6 +44,7 @@ app.use("/api/users", userRoutes);
 
 // New custom design request route
 app.use("/api/custom-requests", customRequestRoutes);
+app.use("/api/cart-images", cartImageRoutes);
 
 // Central error handler
 app.use((err, req, res, next) => {
