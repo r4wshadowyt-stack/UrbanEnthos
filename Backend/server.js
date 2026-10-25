@@ -8,7 +8,7 @@ const pool = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const customRequestRoutes = require("./routes/customRequestRoutes");
 const cartImageRoutes = require("./routes/cartImageRoutes");
-
+const orderRoutes = require("./routes/orderRoutes");
 const app = express();
 
 const frontendOrigins = process.env.FRONTEND_URL
@@ -45,7 +45,7 @@ app.use("/api/users", userRoutes);
 // New custom design request route
 app.use("/api/custom-requests", customRequestRoutes);
 app.use("/api/cart-images", cartImageRoutes);
-
+app.use("/api/orders", orderRoutes);
 // Central error handler
 app.use((err, req, res, next) => {
     if (res.headersSent) {
