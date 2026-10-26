@@ -1,70 +1,84 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="theme-color" content="#5B3A70">
     <title>UrbanEthos | Checkout</title>
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /* UrbanEthos — Premium Checkout Design */
         .checkout-section {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 24px;
+            width: min(1120px, calc(100% - 40px));
+            max-width: 1120px;
+            margin: 42px auto 60px;
+            padding: 0;
+            color: #2D2D2D;
+        }
+
+        .checkout-section>h2 {
+            margin: 0 0 10px;
+            color: #432954;
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .checkout-section>p {
+            margin: 0 0 34px;
+            color: #706876;
+            line-height: 1.7;
+            text-align: center;
         }
 
         .checkout-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+            gap: 28px;
             align-items: start;
         }
 
         .checkout-card {
-            padding: 24px;
-            border: 1px solid #e4dce8;
-            border-radius: 12px;
+            min-width: 0;
+            padding: 30px;
+            border: 1px solid #e8dfed;
+            border-radius: 20px;
             background: #fff;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 12px 35px rgba(67, 41, 84, 0.07);
         }
 
         .checkout-card h3 {
-            margin-top: 0;
-            color: #5B3A70;
+            margin: 0 0 22px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #eee7f1;
+            color: #432954;
+            font-size: 22px;
+            font-weight: 750;
         }
 
-        #checkout-form input,
-        #checkout-form textarea,
-        #checkout-form select {
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            margin: 12px 0;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font: inherit;
-        }
-
-        #checkout-form textarea {
-            resize: vertical;
+        .checkout-card:first-child {
+            background: linear-gradient(180deg, #fff 0%, #fdfbfe 100%);
         }
 
         .checkout-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
+            gap: 15px;
+            padding: 17px 0;
+            border-bottom: 1px solid #eee8f1;
         }
 
         .checkout-item img {
-            width: 65px;
-            height: 65px;
+            flex: 0 0 76px;
+            width: 76px;
+            height: 82px;
             object-fit: cover;
-            border-radius: 6px;
+            border: 1px solid #eee5f1;
+            border-radius: 12px;
+            background: #f7f3f9;
         }
 
         .checkout-item-details {
@@ -73,35 +87,117 @@
         }
 
         .checkout-item-details p {
-            margin: 4px 0;
+            margin: 5px 0;
             overflow-wrap: anywhere;
+            color: #655b6b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .checkout-item-details p:first-child {
+            color: #34243d;
+            font-size: 15px;
+            font-weight: 700;
         }
 
         .checkout-item-price {
-            font-weight: bold;
+            color: #5B3A70;
+            font-size: 15px;
+            font-weight: 800;
             white-space: nowrap;
         }
 
         .checkout-total {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             gap: 12px;
-            margin-top: 20px;
-            font-size: 1.2rem;
-            font-weight: bold;
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 2px solid #e8dfed;
+            color: #432954;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .checkout-total>span:last-child {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
         }
 
         .checkout-note {
-            font-size: 0.9rem;
-            color: #555;
-            line-height: 1.5;
+            color: #766c7b;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .checkout-card .checkout-note {
+            margin-top: 18px;
+        }
+
+        #checkout-form {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        #checkout-form label {
+            margin-top: 8px;
+            color: #403247;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        #checkout-form input,
+        #checkout-form textarea,
+        #checkout-form select {
+            display: block;
+            width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            margin: 3px 0 10px;
+            padding: 14px 15px;
+            border: 1px solid #ddd2e4;
+            border-radius: 11px;
+            background: #fff;
+            color: #2D2D2D;
+            font: inherit;
+            font-size: 15px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #checkout-form input::placeholder,
+        #checkout-form textarea::placeholder {
+            color: #a097a7;
+        }
+
+        #checkout-form input:focus,
+        #checkout-form textarea:focus,
+        #checkout-form select:focus {
+            outline: none;
+            border-color: #7C5295;
+            box-shadow: 0 0 0 4px rgba(124, 82, 149, 0.12);
+        }
+
+        #checkout-form textarea {
+            min-height: 125px;
+            resize: vertical;
+        }
+
+        #checkout-form select {
+            cursor: pointer;
         }
 
         #checkout-message {
-            margin: 16px 0;
-            padding: 12px;
-            border-radius: 6px;
-            line-height: 1.5;
+            margin: 0 0 18px;
+            padding: 13px 15px;
+            border: 1px solid transparent;
+            border-radius: 11px;
+            font-size: 14px;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
         }
 
         #checkout-message:empty {
@@ -109,57 +205,152 @@
         }
 
         #checkout-message.error {
+            border-color: #f0caca;
+            background: #fff3f3;
             color: #8b1e1e;
-            background: #fff0f0;
         }
 
         #checkout-message.success {
+            border-color: #c5e8d0;
+            background: #effbf2;
             color: #176534;
-            background: #edfff2;
         }
 
         #place-order-button {
             width: 100%;
+            min-height: 54px;
             margin-top: 12px;
+            padding: 15px 20px;
+            border: 0;
+            border-radius: 999px;
+            background: #5B3A70;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #place-order-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            background: #432954;
+            box-shadow: 0 8px 20px rgba(67, 41, 84, 0.2);
+        }
+
+        #place-order-button:focus-visible {
+            outline: 3px solid #bda4ce;
+            outline-offset: 3px;
         }
 
         #place-order-button:disabled {
             opacity: 0.65;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
-        @media (max-width: 700px) {
+        .checkout-card a {
+            color: #5B3A70;
+            font-weight: 650;
+            text-underline-offset: 4px;
+        }
+
+        .checkout-card a:hover {
+            color: #432954;
+        }
+
+        @media (max-width: 800px) {
             .checkout-section {
-                margin: 20px auto;
-                padding: 14px;
+                width: calc(100% - 32px);
+                margin: 28px auto 40px;
             }
 
             .checkout-layout {
-                grid-template-columns: 1fr;
-                gap: 18px;
+                grid-template-columns: minmax(0, 1fr);
+                gap: 20px;
+            }
+
+            .checkout-card {
+                padding: 24px;
+                border-radius: 17px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkout-section {
+                width: calc(100% - 24px);
+                margin-top: 22px;
+            }
+
+            .checkout-section>p {
+                margin-bottom: 24px;
+                font-size: 14px;
             }
 
             .checkout-card {
                 padding: 18px;
+                border-radius: 14px;
+            }
+
+            .checkout-card h3 {
+                font-size: 20px;
+            }
+
+            .checkout-item {
+                gap: 10px;
+            }
+
+            .checkout-item img {
+                flex-basis: 60px;
+                width: 60px;
+                height: 68px;
+            }
+
+            .checkout-item-price {
+                font-size: 13px;
+            }
+
+            .checkout-total {
+                font-size: 19px;
+            }
+
+            #checkout-form input,
+            #checkout-form textarea,
+            #checkout-form select {
+                padding: 13px;
+                font-size: 16px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            #checkout-form input,
+            #checkout-form textarea,
+            #checkout-form select,
+            #place-order-button {
+                transition: none;
+            }
+
+            #place-order-button:hover:not(:disabled) {
+                transform: none;
             }
         }
     </style>
 </head>
 
 <body>
-
     <header>
         <div class="logo">
             <img src="image/logo1.jpg" alt="UrbanEthos Logo">
             <span>UrbanEthos</span>
         </div>
 
-        <nav>
+        <nav aria-label="Main navigation">
             <a href="index.html">Home</a>
             <a href="products.html">Products</a>
             <a href="about.html">About</a>
             <a href="contact.html">Contact</a>
-            <a href="cart.html">Cart 🛒</a>
+            <a href="cart.html">Cart &#128722;</a>
         </nav>
     </header>
 
@@ -169,7 +360,6 @@
             <p>Complete your details to place your UrbanEthos order.</p>
 
             <div class="checkout-layout">
-
                 <section class="checkout-card" aria-labelledby="order-summary-heading">
                     <h3 id="order-summary-heading">Your Order</h3>
 
@@ -179,7 +369,7 @@
 
                     <div class="checkout-total">
                         <span>Total</span>
-                        <span>₹<span id="checkout-total">0.00</span></span>
+                        <span>&#8377;<span id="checkout-total">0.00</span></span>
                     </div>
 
                     <p class="checkout-note">
@@ -189,12 +379,12 @@
                     </p>
 
                     <p>
-                        <a href="cart.html">← Return to cart</a>
+                        <a href="cart.html">&#8592; Return to cart</a>
                     </p>
                 </section>
 
-                <section class="checkout-card">
-                    <h3>Delivery Details</h3>
+                <section class="checkout-card" aria-labelledby="delivery-details-heading">
+                    <h3 id="delivery-details-heading">Delivery Details</h3>
 
                     <div id="checkout-message" role="status" aria-live="polite"></div>
 
@@ -231,20 +421,16 @@
                         </button>
                     </form>
                 </section>
-
             </div>
         </section>
     </main>
 
     <script src="script.js"></script>
-
     <script>
         (() => {
             "use strict";
 
-            const ORDER_API =
-                "https://urbanethos-api.onrender.com/api/orders";
-
+            const ORDER_API = "https://urbanethos-api.onrender.com/api/orders";
             const form = document.getElementById("checkout-form");
             const itemsContainer = document.getElementById("checkout-items");
             const totalElement = document.getElementById("checkout-total");
@@ -291,17 +477,11 @@
                 try {
                     const parsed = new URL(image, window.location.href);
 
-                    if (
-                        parsed.protocol !== "https:" &&
-                        parsed.origin !== window.location.origin
-                    ) {
+                    if (parsed.protocol !== "https:" && parsed.origin !== window.location.origin) {
                         return "";
                     }
 
-                    if (
-                        parsed.protocol !== "https:" &&
-                        parsed.protocol !== "http:"
-                    ) {
+                    if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
                         return "";
                     }
 
@@ -313,28 +493,23 @@
 
             function renderOrderSummary() {
                 const cart = getCart();
-
                 itemsContainer.replaceChildren();
 
                 if (cart.length === 0) {
                     const emptyMessage = document.createElement("p");
                     emptyMessage.textContent = "Your cart is empty.";
-
                     itemsContainer.appendChild(emptyMessage);
                     totalElement.textContent = "0.00";
                     submitButton.disabled = true;
 
                     const existingLink = document.getElementById("shop-products-link");
-
                     if (!existingLink) {
                         const link = document.createElement("a");
                         link.id = "shop-products-link";
                         link.href = "products.html";
                         link.textContent = "Browse products";
-
                         itemsContainer.appendChild(link);
                     }
-
                     return;
                 }
 
@@ -345,12 +520,7 @@
                     const product = PRODUCT_CATALOG[String(item.id)];
                     const quantity = Number(item.quantity);
 
-                    if (
-                        !product ||
-                        !Number.isSafeInteger(quantity) ||
-                        quantity < 1 ||
-                        quantity > 99
-                    ) {
+                    if (!product || !Number.isSafeInteger(quantity) || quantity < 1 || quantity > 99) {
                         validCart = false;
                         return;
                     }
@@ -360,46 +530,36 @@
 
                     const row = document.createElement("div");
                     row.className = "checkout-item";
-
-                    const imageUrl = safeProductImage(item.customImageUrl) ||
-                        safeProductImage(item.image);
+                    const imageUrl = safeProductImage(item.customImageUrl) || safeProductImage(item.image);
 
                     if (imageUrl) {
                         const image = document.createElement("img");
                         image.src = imageUrl;
-                        image.alt = item.customImageUrl
-                            ? "Uploaded custom design"
-                            : product.name;
+                        image.alt = item.customImageUrl ? "Uploaded custom design" : product.name;
                         image.loading = "lazy";
                         row.appendChild(image);
                     }
 
                     const details = document.createElement("div");
                     details.className = "checkout-item-details";
-
                     const name = document.createElement("p");
                     name.textContent = product.name;
-
                     const quantityText = document.createElement("p");
-                    quantityText.textContent =
-                        "₹" + formatPrice(product.price) + " × " + quantity;
+                    quantityText.textContent = "\u20B9" + formatPrice(product.price) + " \u00D7 " + quantity;
+
+                    details.appendChild(name);
+                    details.appendChild(quantityText);
 
                     if (item.customImageUrl) {
                         const customLabel = document.createElement("p");
                         customLabel.className = "checkout-note";
                         customLabel.textContent = "Custom picture attached";
-                        details.appendChild(name);
-                        details.appendChild(quantityText);
                         details.appendChild(customLabel);
-                    } else {
-                        details.appendChild(name);
-                        details.appendChild(quantityText);
                     }
 
                     const price = document.createElement("div");
                     price.className = "checkout-item-price";
-                    price.textContent = "₹" + formatPrice(lineTotal);
-
+                    price.textContent = "\u20B9" + formatPrice(lineTotal);
                     row.appendChild(details);
                     row.appendChild(price);
                     itemsContainer.appendChild(row);
@@ -418,32 +578,21 @@
 
             form.addEventListener("submit", async event => {
                 event.preventDefault();
-
                 if (isSubmitting) return;
 
                 const cart = getCart();
-
                 if (cart.length === 0) {
-                    showMessage(
-                        "Your cart is empty. Add a product before placing an order.",
-                        "error"
-                    );
+                    showMessage("Your cart is empty. Add a product before placing an order.", "error");
                     renderOrderSummary();
                     return;
                 }
 
                 const items = [];
-
                 for (const item of cart) {
                     const product = PRODUCT_CATALOG[String(item.id)];
                     const quantity = Number(item.quantity);
 
-                    if (
-                        !product ||
-                        !Number.isSafeInteger(quantity) ||
-                        quantity < 1 ||
-                        quantity > 99
-                    ) {
+                    if (!product || !Number.isSafeInteger(quantity) || quantity < 1 || quantity > 99) {
                         showMessage(
                             "Your cart contains an invalid product or quantity. Please check your cart.",
                             "error"
@@ -465,10 +614,8 @@
                     fullName: document.getElementById("full-name").value.trim(),
                     email: document.getElementById("email").value.trim(),
                     phone: document.getElementById("phone").value.trim(),
-                    deliveryAddress:
-                        document.getElementById("delivery-address").value.trim(),
-                    paymentMethod:
-                        document.getElementById("payment-method").value,
+                    deliveryAddress: document.getElementById("delivery-address").value.trim(),
+                    paymentMethod: document.getElementById("payment-method").value,
                     items
                 };
 
@@ -480,14 +627,11 @@
                 try {
                     const response = await fetch(ORDER_API, {
                         method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
+                        headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(customer)
                     });
 
                     let result;
-
                     try {
                         result = await response.json();
                     } catch {
@@ -495,29 +639,16 @@
                     }
 
                     if (!response.ok) {
-                        throw new Error(
-                            result.message ||
-                            "We could not place your order. Your cart has been preserved."
-                        );
+                        throw new Error(result.message || "We could not place your order. Your cart has been preserved.");
                     }
 
                     if (!result.order || result.order.id === undefined) {
-                        throw new Error(
-                            "The server response could not be verified. Check with the store before retrying."
-                        );
+                        throw new Error("The server response could not be verified. Check with the store before retrying.");
                     }
 
-                    /*
-                     * Only clear the cart after the server confirms the saved order.
-                     * Verify the cart has not changed while the request was in flight.
-                     */
+                    // Clear the cart only after the server confirms the saved order.
                     const currentCart = localStorage.getItem("cart") || "[]";
                     const submittedCart = JSON.stringify(cart);
-
-                    /*
-                     * Compare the current cart with the snapshot captured at submit time.
-                     * If it changed, do not erase the newer cart contents.
-                     */
                     if (currentCart === submittedCart) {
                         localStorage.removeItem("cart");
                     }
@@ -526,10 +657,9 @@
                     renderOrderSummary();
 
                     const orderNumber = result.order.id;
-
                     showMessage(
                         "Order placed successfully! Your order number is " +
-                        orderNumber + ". Total: ₹" +
+                        orderNumber + ". Total: \u20B9" +
                         formatPrice(result.order.total) + ". " +
                         (result.paymentNotice || "") +
                         (currentCart !== submittedCart
@@ -541,16 +671,13 @@
                     submitButton.textContent = "Order Placed";
                 } catch (error) {
                     showMessage(
-                        error.message ||
-                        "Unable to contact the order service. Your cart has not been cleared. Please try again.",
+                        error.message || "Unable to contact the order service. Your cart has not been cleared. Please try again.",
                         "error"
                     );
-
                     submitButton.disabled = false;
                     submitButton.textContent = "Place Order";
                 } finally {
                     isSubmitting = false;
-
                     if (submitButton.textContent !== "Order Placed") {
                         submitButton.disabled = getCart().length === 0;
                     }
@@ -560,7 +687,6 @@
             renderOrderSummary();
         })();
     </script>
-
 </body>
 
 </html>
